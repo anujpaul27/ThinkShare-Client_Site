@@ -14,11 +14,16 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { data } from "framer-motion/client";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Replace with your auth logic (e.g., useSession)
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme(); // If using next-themes
+
+  // Check user login or not
+  const { data, isPending } = authClient.useSession();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -69,7 +74,7 @@ export default function Navbar() {
           )}
         </button>
 
-        {isLoggedIn ? (
+        {data?.user ? (
           <>
             {/* Private Links - Desktop */}
             <div className="hidden md:flex items-center gap-2">
@@ -168,7 +173,7 @@ export default function Navbar() {
               <Lightbulb className="w-5 h-5" /> Ideas
             </Link>
 
-            {isLoggedIn && (
+            {data?.user && (
               <>
                 <div className="h-px bg-base-200 my-2" />
 
