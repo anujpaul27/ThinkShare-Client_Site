@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Description,
@@ -12,15 +13,33 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function OnSurface() {
-  const onSubmit = (e) => {
+  const [isLoading, setLoading] = useState(false);
+  const router = useRouter()
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const UserObj = Object.fromEntries(formData.entries());
 
-    alert(JSON.stringify(UserObj));
+    const { data, error } = await authClient.signUp.email({
+      email: UserObj.email,
+      password: UserObj.password,
+      name: UserObj.name,
+      callbackURL: "/",
+    },{
+      onSuccess : (ctx)=> {
+        router.push('/')
+      },
+      onError: (ctx) => {
+            // display the error message
+            alert(ctx.error.message);
+            setLoading(false)
+        },
+    });
   };
 
   return (
@@ -77,16 +96,21 @@ export default function OnSurface() {
                   }}
                 >
                   <Label>Password</Label>
-                  <Input placeholder="Enter your password" />
+                  <Input placeholder="Enter your password" variant='secondary' />
                   <Description>
                     Must be at least 8 characters with 1 uppercase and 1 number
                   </Description>
                   <FieldError />
                 </TextField>
-
               </Fieldset.Group>
               <Fieldset.Actions>
-                <Button type="submit">Save changes</Button>
+                <Button
+                  type="submit"
+                  onClick={() => setLoading(true)}
+                  className={isLoading && 'btn btn-outline rounded-full '}
+                >
+                  {isLoading ? "Loading..." : "Save changes"}
+                </Button>
                 <Button type="reset" variant="tertiary">
                   Cancel
                 </Button>
