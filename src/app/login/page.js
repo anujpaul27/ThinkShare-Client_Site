@@ -12,7 +12,7 @@ import {
   Surface,
   TextField,
 } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import {useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function OnSurface() {
@@ -21,6 +21,8 @@ export default function OnSurface() {
 
   // user router for the redirect
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const navigateTo = searchParams.get("callbackUrl") || "/";
 
   const onSubmit = async (e) => {
 
@@ -32,18 +34,13 @@ export default function OnSurface() {
     setLoading(true)
 
     // User Register with BetterAuth
-    const { data, error } = await authClient.signUp.email(
+    const { data, error } = await authClient.signIn.email(
       {
         email: UserObj.email,
         password: UserObj.password,
-        name: UserObj.name,
-        callbackURL: "/",
+        callbackURL: navigateTo,
       },
       {
-        onSuccess: (ctx) => {
-          // redirect to home page 
-          router.push("/");
-        },
         onError: (ctx) => {
           // display the error message
           alert(ctx.error.message);
@@ -54,34 +51,22 @@ export default function OnSurface() {
   };
 
   return (
-    <div className="lg:w-full   h-screen  flex justify-center lg:items-center  ">
+    <div className="lg:w-full 10/12  h-screen  flex justify-center lg:items-center  ">
       <div className="flex items-center justify-center rounded-3xl bg-surface p-6">
         <Surface className="w-full min-w-[380px]">
           <Form onSubmit={onSubmit}>
             <Fieldset className="w-full ">
+
               <Fieldset.Legend className=" text-3xl text-center ">
-                ThinkShare Register
+                Login to ThinkShare 
               </Fieldset.Legend>
+
               <Description className="text-xl text-center my-2 ">
                 {" "}
-                Register is the first ThinkShare{" "}
+                Login and share your idea with us{" "}
               </Description>
               <Fieldset.Group>
-                <TextField
-                  isRequired
-                  name="name"
-                  validate={(value) => {
-                    if (value.length < 3) {
-                      return "Name must be at least 3 characters";
-                    }
-
-                    return null;
-                  }}
-                >
-                  <Label>Name</Label>
-                  <Input placeholder="John Doe" variant="secondary" />
-                  <FieldError />
-                </TextField>
+                
                 <TextField isRequired name="email" type="email">
                   <Label>Email</Label>
                   <Input placeholder="john@example.com" variant="secondary" />
@@ -116,8 +101,10 @@ export default function OnSurface() {
                   </Description>
                   <FieldError />
                 </TextField>
+
               </Fieldset.Group>
-              <Fieldset.Actions>
+
+              <Fieldset.Actions >
                 <Button
                   type="submit"
                   isLoading={isLoading}
@@ -128,7 +115,7 @@ export default function OnSurface() {
                 </Button>
 
                 <Button type="reset" variant="tertiary">
-                  Reset
+                  Reset form 
                 </Button>
               </Fieldset.Actions>
             </Fieldset>
