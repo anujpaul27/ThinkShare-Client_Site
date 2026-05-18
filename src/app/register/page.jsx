@@ -10,36 +10,47 @@ import {
   Input,
   Label,
   Surface,
-  TextArea,
   TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function OnSurface() {
+  // use state for dynamic submit button 
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter()
+
+  // user router for the redirect
+  const router = useRouter();
 
   const onSubmit = async (e) => {
+
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const UserObj = Object.fromEntries(formData.entries());
 
-    const { data, error } = await authClient.signUp.email({
-      email: UserObj.email,
-      password: UserObj.password,
-      name: UserObj.name,
-      callbackURL: "/",
-    },{
-      onSuccess : (ctx)=> {
-        router.push('/')
+    // loading true when form submit
+    setLoading(true)
+
+    // User Register with BetterAuth
+    const { data, error } = await authClient.signUp.email(
+      {
+        email: UserObj.email,
+        password: UserObj.password,
+        name: UserObj.name,
+        callbackURL: "/",
       },
-      onError: (ctx) => {
-            // display the error message
-            alert(ctx.error.message);
-            setLoading(false)
+      {
+        onSuccess: (ctx) => {
+          // redirect to home page 
+          router.push("/");
         },
-    });
+        onError: (ctx) => {
+          // display the error message
+          alert(ctx.error.message);
+          setLoading(false);
+        },
+      },
+    );
   };
 
   return (
@@ -83,20 +94,23 @@ export default function OnSurface() {
                   name="password"
                   type="password"
                   validate={(value) => {
-                    if (value.length < 8) {
+                    if (value.length < 8) {        
                       return "Password must be at least 8 characters";
                     }
-                    if (!/[A-Z]/.test(value)) {
+                    if (!/[A-Z]/.test(value)) {        
                       return "Password must contain at least one uppercase letter";
                     }
-                    if (!/[0-9]/.test(value)) {
+                    if (!/[0-9]/.test(value)) {        
                       return "Password must contain at least one number";
                     }
                     return null;
                   }}
                 >
                   <Label>Password</Label>
-                  <Input placeholder="Enter your password" variant='secondary' />
+                  <Input
+                    placeholder="Enter your password"
+                    variant="secondary"
+                  />
                   <Description>
                     Must be at least 8 characters with 1 uppercase and 1 number
                   </Description>
@@ -106,11 +120,13 @@ export default function OnSurface() {
               <Fieldset.Actions>
                 <Button
                   type="submit"
-                  onClick={() => setLoading(true)}
-                  className={isLoading && 'btn btn-outline rounded-full '}
+                  isLoading={isLoading}
+                  isDisabled={isLoading}
+                  className="rounded-full"
                 >
-                  {isLoading ? "Loading..." : "Save changes"}
+                  {isLoading ? 'Loading..' : 'Submit '}
                 </Button>
+
                 <Button type="reset" variant="tertiary">
                   Cancel
                 </Button>
