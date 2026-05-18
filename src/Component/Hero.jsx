@@ -24,7 +24,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative h-80 lg:h-screen flex items-center overflow-hidden">
+    <div className="relative  h-80  lg:h-screen flex items-center overflow-hidden">
       
       {/* Background Video */}
       <video
@@ -70,7 +70,7 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                IdeaVault
+                ThinkShare
               </motion.h1>
 
               <motion.p 

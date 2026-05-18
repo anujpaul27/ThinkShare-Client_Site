@@ -25,14 +25,14 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow-md border-b border-base-200 sticky top-0 z-50 ;">
+    <div className="navbar  bg-base-100 shadow-md border-b border-base-200 sticky top-0 z-50 ;">
       <div className="navbar-start">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 px-4">
           <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
             <Lightbulb className="w-5 h-5 text-primary-content" />
           </div>
-          <span className="text-2xl font-bold text-primary">IdeaVault</span>
+          <span className="text-2xl font-bold text-primary">ThinkShare</span>
         </Link>
       </div>
 
