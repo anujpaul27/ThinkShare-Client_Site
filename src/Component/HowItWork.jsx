@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lightbulb, Users, MessageCircle, Trophy } from 'lucide-react';
+import Link from 'next/link';
 
 const steps = [
   {
@@ -36,7 +37,7 @@ export default function HowItWorks() {
     <section className="py-20 bg-base-100 ">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-4xl font-bold mb-4">How IdeaVault Works</h2>
+          <h2 className="text-4xl font-bold mb-4">How ThinkShare Works</h2>
           <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
             From idea to reality in just 4 simple steps
           </p>
@@ -78,9 +79,9 @@ export default function HowItWorks() {
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <p className="text-base-content/60 mb-4">Ready to bring your idea to life?</p>
-          <a href="/add-idea" className="btn btn-primary btn-lg px-10">
+          <Link href="/add-idea" className="btn btn-primary btn-lg px-10">
             Share Your Idea Now
-          </a>
+          </Link>
         </div>
       </div>
     </section>

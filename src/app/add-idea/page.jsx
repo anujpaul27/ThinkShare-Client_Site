@@ -12,33 +12,21 @@ const categories = [
 ];
 
 export default function AddIdeaPage() {
-  const [formData, setFormData] = useState({
-    title: "",
-    shortDescription: "",
-    detailedDescription: "",
-    category: "",
-    tags: "",
-    imageUrl: "",
-    estimatedBudget: "",
-    targetAudience: "",
-    problemStatement: "",
-    proposedSolution: "",
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    const formData = new FormData(e.currentTarget);
+    const UserObj = Object.fromEntries(formData.entries());
+    console.log(UserObj);
+
 
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    alert("🎉 Your idea has been submitted successfully!");
+    alert( JSON.stringify(UserObj));
     // Reset form or redirect
     setIsSubmitting(false);
   };
@@ -60,8 +48,8 @@ export default function AddIdeaPage() {
               <Lightbulb className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold">Share Your Idea</h1>
-              <p className="text-base-content/70">Help the community validate and grow your startup idea</p>
+              <h1 className="lg:text-4xl md:text-3xl text-2xl  font-bold">Share Your Idea</h1>
+              <p className="text-base-content/70 lg:text-xl md:text-md text-sm">Help the community validate and grow your startup idea</p>
             </div>
           </div>
         </motion.div>
@@ -75,8 +63,7 @@ export default function AddIdeaPage() {
               <input
                 type="text"
                 name="title"
-                value={formData.title}
-                onChange={handleChange}
+                
                 required
                 className="input input-bordered w-full text-lg"
                 placeholder="E.g. AI-Powered Smart Farming Assistant"
@@ -89,8 +76,7 @@ export default function AddIdeaPage() {
               <input
                 type="text"
                 name="shortDescription"
-                value={formData.shortDescription}
-                onChange={handleChange}
+                
                 required
                 className="input input-bordered w-full"
                 placeholder="One sentence summary of your idea"
@@ -104,8 +90,7 @@ export default function AddIdeaPage() {
                 <label className="block text-sm font-medium mb-2">Category <span className="text-red-500">*</span></label>
                 <select
                   name="category"
-                  value={formData.category}
-                  onChange={handleChange}
+                  
                   required
                   className="select select-bordered w-full"
                 >
@@ -121,8 +106,7 @@ export default function AddIdeaPage() {
                 <input
                   type="text"
                   name="estimatedBudget"
-                  value={formData.estimatedBudget}
-                  onChange={handleChange}
+                  
                   className="input input-bordered w-full"
                   placeholder="e.g. $15,000 - $25,000"
                 />
@@ -135,8 +119,7 @@ export default function AddIdeaPage() {
               <input
                 type="text"
                 name="tags"
-                value={formData.tags}
-                onChange={handleChange}
+                
                 className="input input-bordered w-full"
                 placeholder="ai, health, mobile-app, startup (comma separated)"
               />
@@ -149,8 +132,7 @@ export default function AddIdeaPage() {
                 <input
                   type="url"
                   name="imageUrl"
-                  value={formData.imageUrl}
-                  onChange={handleChange}
+                  
                   className="input input-bordered w-full"
                   placeholder="https://example.com/image.jpg"
                 />
@@ -165,8 +147,7 @@ export default function AddIdeaPage() {
               <label className="block text-sm font-medium mb-2">Problem Statement <span className="text-red-500">*</span></label>
               <textarea
                 name="problemStatement"
-                value={formData.problemStatement}
-                onChange={handleChange}
+                
                 required
                 rows={4}
                 className="textarea textarea-bordered w-full"
@@ -179,8 +160,7 @@ export default function AddIdeaPage() {
               <label className="block text-sm font-medium mb-2">Proposed Solution <span className="text-red-500">*</span></label>
               <textarea
                 name="proposedSolution"
-                value={formData.proposedSolution}
-                onChange={handleChange}
+                
                 required
                 rows={5}
                 className="textarea textarea-bordered w-full"
@@ -193,8 +173,7 @@ export default function AddIdeaPage() {
               <label className="block text-sm font-medium mb-2">Detailed Description</label>
               <textarea
                 name="detailedDescription"
-                value={formData.detailedDescription}
-                onChange={handleChange}
+                
                 rows={6}
                 className="textarea textarea-bordered w-full"
                 placeholder="Provide more details about your idea..."
@@ -207,8 +186,7 @@ export default function AddIdeaPage() {
               <input
                 type="text"
                 name="targetAudience"
-                value={formData.targetAudience}
-                onChange={handleChange}
+                
                 className="input input-bordered w-full"
                 placeholder="e.g. Busy professionals, Small business owners, Students"
               />

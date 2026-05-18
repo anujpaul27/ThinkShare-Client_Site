@@ -136,7 +136,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-base-200 dark:border-neutral-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+        <div className="border-t border-base-200 dark:border-neutral-700 lg:mt-12 lg:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
           <p className="text-base-content/60">
             © {new Date().getFullYear()} ThinkShare. All Rights Reserved.
           </p>
