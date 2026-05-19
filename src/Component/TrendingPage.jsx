@@ -1,79 +1,93 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { TrendingUp, Heart, MessageCircle, Eye } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { TrendingUp, Heart, MessageCircle, Eye } from "lucide-react";
+import useSWR from "swr";
+import Loader from "./loading";
 
-const trendingIdeas = [
-  {
-    id: 1,
-    title: "AI-Powered Personalized Fitness Coach",
-    description: "An app that creates real-time workout plans based on user's mood, energy level, and available equipment.",
-    category: "Health & Fitness",
-    author: "Sarah Ahmed",
-    likes: 1240,
-    comments: 89,
-    views: 15400,
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Zero-Waste Grocery Delivery Platform",
-    description: "Eco-friendly delivery system using reusable packaging and AI route optimization.",
-    category: "Sustainability",
-    author: "Rahman Khan",
-    likes: 980,
-    comments: 67,
-    views: 8900,
-    image: "https://images.unsplash.com/photo-1717457779749-7a6707d042ad?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 3,
-    title: "Virtual Reality Language Learning",
-    description: "Immerse yourself in real-life conversations with AI characters in different cultures.",
-    category: "Education",
-    author: "Priya Sharma",
-    likes: 850,
-    comments: 54,
-    views: 7200,
-    image: "https://images.unsplash.com/photo-1592478411213-8b6f8e0b3f2a?w=600&h=400&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Smart Fridge Inventory Manager",
-    description: "Automatically tracks expiry dates and suggests recipes based on what you have.",
-    category: "IoT",
-    author: "Tanvir Hassan",
-    likes: 670,
-    comments: 43,
-    views: 6300,
-    image: "https://images.unsplash.com/photo-1586201375765-9c6e5c5f5e5e?w=600&h=400&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Freelancer Financial Stability App",
-    description: "Predicts income gaps and helps freelancers save for lean months.",
-    category: "Fintech",
-    author: "Nadia Islam",
-    likes: 1120,
-    comments: 76,
-    views: 9800,
-    image: "https://images.unsplash.com/photo-1554224155-6726b9b5b5b5?w=600&h=400&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Mental Health Journal with AI Insights",
-    description: "Daily mood tracking with AI that detects patterns and suggests coping techniques.",
-    category: "HealthTech",
-    author: "Fahim Chowdhury",
-    likes: 1450,
-    comments: 112,
-    views: 13400,
-    image: "https://images.unsplash.com/photo-1541193999607-8b0b9f5f0f0f?w=600&h=400&fit=crop",
-  },
-];
+// const trendingIdeas = [
+//   {
+//     id: 1,
+//     title: "AI-Powered Personalized Fitness Coach",
+//     description:
+//       "An app that creates real-time workout plans based on user's mood, energy level, and available equipment.",
+//     category: "Health & Fitness",
+//     author: "Sarah Ahmed",
+//     likes: 1240,
+//     comments: 89,
+//     views: 15400,
+//     image:
+//       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
+//   },
+//   {
+//     id: 2,
+//     title: "Zero-Waste Grocery Delivery Platform",
+//     description:
+//       "Eco-friendly delivery system using reusable packaging and AI route optimization.",
+//     category: "Sustainability",
+//     author: "Rahman Khan",
+//     likes: 980,
+//     comments: 67,
+//     views: 8900,
+//     image:
+//       "https://images.unsplash.com/photo-1717457779749-7a6707d042ad?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//   },
+//   {
+//     id: 3,
+//     title: "Virtual Reality Language Learning",
+//     description:
+//       "Immerse yourself in real-life conversations with AI characters in different cultures.",
+//     category: "Education",
+//     author: "Priya Sharma",
+//     likes: 850,
+//     comments: 54,
+//     views: 7200,
+//     image:
+//       "https://images.unsplash.com/photo-1592478411213-8b6f8e0b3f2a?w=600&h=400&fit=crop",
+//   },
+//   {
+//     id: 4,
+//     title: "Smart Fridge Inventory Manager",
+//     description:
+//       "Automatically tracks expiry dates and suggests recipes based on what you have.",
+//     category: "IoT",
+//     author: "Tanvir Hassan",
+//     likes: 670,
+//     comments: 43,
+//     views: 6300,
+//     image:
+//       "https://images.unsplash.com/photo-1586201375765-9c6e5c5f5e5e?w=600&h=400&fit=crop",
+//   },
+//   {
+//     id: 5,
+//     title: "Freelancer Financial Stability App",
+//     description:
+//       "Predicts income gaps and helps freelancers save for lean months.",
+//     category: "Fintech",
+//     author: "Nadia Islam",
+//     likes: 1120,
+//     comments: 76,
+//     views: 9800,
+//     image:
+//       "https://images.unsplash.com/photo-1554224155-6726b9b5b5b5?w=600&h=400&fit=crop",
+//   },
+//   {
+//     id: 6,
+//     title: "Mental Health Journal with AI Insights",
+//     description:
+//       "Daily mood tracking with AI that detects patterns and suggests coping techniques.",
+//     category: "HealthTech",
+//     author: "Fahim Chowdhury",
+//     likes: 1450,
+//     comments: 112,
+//     views: 13400,
+//     image:
+//       "https://images.unsplash.com/photo-1541193999607-8b0b9f5f0f0f?w=600&h=400&fit=crop",
+//   },
+// ];
 
 // Animation Variants
 const containerVariants = {
@@ -101,7 +115,15 @@ const cardVariants = {
   },
 };
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function TrendingIdeasPage() {
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/read-idea`, fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (isLoading) return <Loader></Loader>;
+  const trendingIdeas=(data.data);
+
   return (
     <section className="py-16 bg-base-200 ">
       <div className="max-w-7xl mx-auto px-6">
@@ -129,19 +151,18 @@ export default function TrendingIdeasPage() {
         >
           {trendingIdeas.map((idea) => (
             <motion.div
-              key={idea.id}
+              key={idea._id}
               variants={cardVariants}
               whileHover="hover"
-              className="card bg-base-100 shadow-md hover:shadow-2xl transition-shadow duration-300 group border border-base-200 dark:border-neutral-700 overflow-hidden"
+              className="card bg-base-100 shadow-md hover:shadow-2xl transition-shadow duration-300 group border border-base-200  overflow-hidden"
             >
               {/* Image */}
               <figure className="relative h-52 overflow-hidden">
                 <Image
-                  src={idea.image}
+                  src={idea.imageUrl}
                   alt={idea.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  
                 />
                 <div className="absolute top-3 right-3 z-10">
                   <div className="badge badge-primary badge-sm font-medium shadow">
@@ -150,41 +171,21 @@ export default function TrendingIdeasPage() {
                 </div>
               </figure>
 
-              <div className="card-body p-6">
+              <div className="card-body ">
                 <h3 className="card-title text-lg leading-tight line-clamp-2 mb-2">
                   {idea.title}
                 </h3>
 
                 <p className="text-base-content/70 text-sm line-clamp-3 mb-5">
-                  {idea.description}
+                  {idea.shortDescription}
                 </p>
 
-                <p className="text-xs text-base-content/60 mb-4">
-                  by <span className="font-medium">{idea.author}</span>
-                </p>
-
-                {/* Stats */}
-                <div className="flex justify-between items-center text-sm mb-6">
-                  <div className="flex items-center gap-5">
-                    <div className="flex items-center gap-1.5">
-                      <Heart className="w-4 h-4 text-red-500" />
-                      <span>{idea.likes.toLocaleString()}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <MessageCircle className="w-4 h-4" />
-                      <span>{idea.comments}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Eye className="w-4 h-4" />
-                      <span>{(idea.views / 1000).toFixed(0)}k</span>
-                    </div>
-                  </div>
-                </div>
+                
 
                 {/* View Details Button */}
                 <Link
                   href={`/ideas/${idea.id}`}
-                  className="btn btn-primary btn-block group-hover:bg-primary-focus transition-colors"
+                  className="btn btn-primary btn-block group-hover:bg-primary-focus transition-colors mb-0"
                 >
                   View Details
                 </Link>
