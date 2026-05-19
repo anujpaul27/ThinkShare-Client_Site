@@ -4,9 +4,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { TrendingUp, Heart, MessageCircle, Eye } from "lucide-react";
+import { TrendingUp} from "lucide-react";
 import useSWR from "swr";
-import Loader from "./loading";
+import Loader from "@/Component/loading";
 
 
 const containerVariants = {
@@ -37,7 +37,7 @@ const cardVariants = {
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function TrendingIdeasPage() {
-  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/read-idea`, fetcher);
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/read-idea-all`, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <Loader></Loader>;
@@ -51,13 +51,11 @@ export default function TrendingIdeasPage() {
           <div className="flex items-center gap-3">
             <TrendingUp className="w-8 h-8 text-primary" />
             <div>
-              <h2 className="text-4xl font-bold">Trending Ideas</h2>
+              <h2 className="text-4xl font-bold">ALL Ideas details over here</h2>
               <p className=" mt-1">Popular this week • Updated live</p>
             </div>
           </div>
-          <Link href="/ideas" className="btn btn-outline">
-            View All Ideas →
-          </Link>
+          
         </div>
 
         {/* Ideas Grid with Framer Motion */}
