@@ -12,6 +12,7 @@ import {
   Surface,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -58,12 +59,12 @@ export default function OnSurface() {
       <div className="flex items-center justify-center rounded-3xl bg-surface p-6">
         <Surface className="w-full min-w-[380px]">
           <Form onSubmit={onSubmit}>
-            <Fieldset className="w-full ">
-              <Fieldset.Legend className=" text-3xl text-center ">
+            <Fieldset className="w-full mx-auto">
+              <Fieldset.Legend className=" text-3xl  ">
                 Login to ThinkShare
               </Fieldset.Legend>
 
-              <Description className="text-xl text-center my-2 ">
+              <Description className="text-xl  my-2 ">
                 {" "}
                 Login and share your idea with us{" "}
               </Description>
@@ -102,6 +103,7 @@ export default function OnSurface() {
                   </Description>
                   <FieldError />
                 </TextField>
+                <p className="text-sm">Don’t have an account? <Link className='text-primary link' href={'/register'}>Register here</Link> </p>
               </Fieldset.Group>
 
               <Fieldset.Actions>

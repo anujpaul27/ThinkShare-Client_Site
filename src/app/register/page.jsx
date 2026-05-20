@@ -59,10 +59,10 @@ export default function OnSurface() {
         <Surface className="w-full min-w-[380px]">
           <Form onSubmit={onSubmit}>
             <Fieldset className="w-full ">
-              <Fieldset.Legend className=" text-3xl text-center ">
+              <Fieldset.Legend className=" text-3xl  ">
                 ThinkShare Register
               </Fieldset.Legend>
-              <Description className="text-xl text-center my-2 ">
+              <Description className="text-xl  my-2 ">
                 {" "}
                 Register is the first ThinkShare{" "}
               </Description>

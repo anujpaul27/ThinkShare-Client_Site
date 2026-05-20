@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lightbulb, Upload, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'sonner';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 const categories = [
   "Technology", "Health & Fitness", "AI & Machine Learning", "Education",
@@ -13,6 +16,9 @@ const categories = [
 
 export default function AddIdeaPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
+  // get the mongoDB user id from the session 
+  const {data, isPending} = authClient.useSession()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,14 +26,21 @@ export default function AddIdeaPage() {
     
     const formData = new FormData(e.currentTarget);
     const UserObj = Object.fromEntries(formData.entries());
-    console.log(UserObj);
-
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    UserObj.author_id = data?.user?.id;
     
-    alert( JSON.stringify(UserObj));
-    // Reset form or redirect
+    const post = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/create-idea`,{
+      method: 'POST',
+      headers : {
+        'content-type' : 'application/json',
+      },
+      body: JSON.stringify(UserObj)
+    })
+
+    if (post.ok)
+    {
+      toast.success('Your Idea add successful.')
+      router.push('/ideas')
+    }
     setIsSubmitting(false);
   };
 
@@ -127,7 +140,7 @@ export default function AddIdeaPage() {
 
             {/* Image URL */}
             <div>
-              <label className="block text-sm font-medium mb-2">Image URL (Optional)</label>
+              <label className="block text-sm font-medium mb-2">Image URL Recommended (select image link from unsplash free image)</label>
               <div className="flex gap-3">
                 <input
                   type="url"
@@ -136,9 +149,7 @@ export default function AddIdeaPage() {
                   className="input input-bordered w-full"
                   placeholder="https://example.com/image.jpg"
                 />
-                <button type="button" className="btn btn-outline">
-                  <Upload className="w-5 h-5" />
-                </button>
+                
               </div>
             </div>
 
