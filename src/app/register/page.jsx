@@ -37,6 +37,7 @@ export default function OnSurface() {
         email: UserObj.email,
         password: UserObj.password,
         name: UserObj.name,
+        image: UserObj.ImageURL,
         callbackURL: "/",
       },
       {
@@ -82,6 +83,7 @@ export default function OnSurface() {
                   <Input placeholder="John Doe" variant="secondary" />
                   <FieldError />
                 </TextField>
+
                 <TextField isRequired name="email" type="email">
                   <Label>Email</Label>
                   <Input placeholder="john@example.com" variant="secondary" />
@@ -116,6 +118,13 @@ export default function OnSurface() {
                   </Description>
                   <FieldError />
                 </TextField>
+
+                <TextField isRequired name="ImageURL" type="text">
+                  <Label>Photo URL (chose URL from unsplash free image link)</Label>
+                  <Input placeholder="https://image.unsplash.com/avatar" variant="secondary" />
+                  <FieldError />
+                </TextField>
+
               </Fieldset.Group>
               <Fieldset.Actions>
                 <Button

@@ -35,6 +35,9 @@ export default function IdeaDetailPage() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(mockComments);
 
+  const params = useParams();
+  const id = params?.id;
+
   const handlePostComment = () => {
     if (!newComment.trim()) return;
     
@@ -49,11 +52,8 @@ export default function IdeaDetailPage() {
 
     setComments([comment, ...comments]);
     setNewComment("");
-  };
-
-  const params = useParams();
-  const id = params?.id;
-
+  }; 
+  
   const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/${id}`,
     fetcher,
@@ -206,9 +206,10 @@ export default function IdeaDetailPage() {
                 className="bg-base-100 dark:bg-neutral-900 p-6 rounded-3xl"
               >
                 <div className="flex items-center gap-4">
-                  <img
+                  <Image
                     src={comment.avatar}
                     alt={comment.name}
+                    loading='lazy'
                     className="w-10 h-10 rounded-full"
                   />
                   <div className="flex-1">
