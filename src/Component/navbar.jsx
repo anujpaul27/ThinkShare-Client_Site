@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { data } from "framer-motion/client";
+import LogoutButton from "./LogOut";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme(); // If using next-themes
 
@@ -74,24 +74,23 @@ export default function Navbar() {
           )}
         </button>
 
+        {/* Private Links - Desktop */}
+        <div className="hidden md:flex items-center gap-2">
+          <Link href="/add-idea" className="btn btn-primary btn-sm gap-2">
+            <PlusCircle className="w-4 h-4" />
+            Add Idea
+          </Link>
+
+          <Link href="/my-ideas" className="btn btn-ghost btn-sm">
+            My Ideas
+          </Link>
+
+          <Link href="/my-interactions" className="btn btn-ghost btn-sm">
+            Interactions
+          </Link>
+        </div>
         {data?.user ? (
           <>
-            {/* Private Links - Desktop */}
-            <div className="hidden md:flex items-center gap-2">
-              <Link href="/add-idea" className="btn btn-primary btn-sm gap-2">
-                <PlusCircle className="w-4 h-4" />
-                Add Idea
-              </Link>
-
-              <Link href="/my-ideas" className="btn btn-ghost btn-sm">
-                My Ideas
-              </Link>
-
-              <Link href="/my-interactions" className="btn btn-ghost btn-sm">
-                Interactions
-              </Link>
-            </div>
-
             {/* Profile Dropdown */}
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -103,19 +102,9 @@ export default function Navbar() {
                 tabIndex={0}
                 className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
+                
                 <li>
-                  <Link href="/profile" className="justify-between">
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/my-ideas">My Ideas</Link>
-                </li>
-                <li>
-                  <Link href="/my-interactions">My Interactions</Link>
-                </li>
-                <li>
-                  <a onClick={() => setIsLoggedIn(false)}>Logout</a>
+                  <LogoutButton>LogOut</LogoutButton>
                 </li>
               </ul>
             </div>
@@ -123,11 +112,8 @@ export default function Navbar() {
         ) : (
           /* Auth Buttons */
           <div className="flex items-center gap-2">
-            <Link href="/login" className="btn btn-ghost btn-sm">
+            <Link href="/login" className="btn btn-primary btn-sm">
               Login
-            </Link>
-            <Link href="/register" className="btn btn-primary btn-sm">
-              Register
             </Link>
           </div>
         )}
@@ -173,43 +159,41 @@ export default function Navbar() {
               <Lightbulb className="w-5 h-5" /> Ideas
             </Link>
 
-            {data?.user && (
-              <>
-                <div className="h-px bg-base-200 my-2" />
+            <>
+              <div className="h-px bg-base-200 my-2" />
 
-                <Link
-                  href="/add-idea"
-                  className="flex items-center gap-3 text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <PlusCircle className="w-5 h-5" /> Add Idea
-                </Link>
+              <Link
+                href="/add-idea"
+                className="flex items-center gap-3 text-lg"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <PlusCircle className="w-5 h-5" /> Add Idea
+              </Link>
 
-                <Link
-                  href="/my-ideas"
-                  className="flex items-center gap-3 text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <FolderOpen className="w-5 h-5" /> My Ideas
-                </Link>
+              <Link
+                href="/my-ideas"
+                className="flex items-center gap-3 text-lg"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FolderOpen className="w-5 h-5" /> My Ideas
+              </Link>
 
-                <Link
-                  href="/my-interactions"
-                  className="flex items-center gap-3 text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <MessageSquare className="w-5 h-5" /> My Interactions
-                </Link>
+              <Link
+                href="/my-interactions"
+                className="flex items-center gap-3 text-lg"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <MessageSquare className="w-5 h-5" /> My Interactions
+              </Link>
 
-                <Link
-                  href="/profile"
-                  className="flex items-center gap-3 text-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <User className="w-5 h-5" /> Profile
-                </Link>
-              </>
-            )}
+              <Link
+                href="/profile"
+                className="flex items-center gap-3 text-lg"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <User className="w-5 h-5" /> Profile
+              </Link>
+            </>
           </div>
         </div>
       )}
