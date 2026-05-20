@@ -30,7 +30,7 @@ export default function MyIdeasPage() {
     try {
       // example delete api
       await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/delete-idea/${ideaId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea-delete/${ideaId}`,
         {
           method: "DELETE",
         },
