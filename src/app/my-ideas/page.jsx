@@ -154,7 +154,7 @@ export default function MyIdeasPage() {
                             </Link>
 
                             <Link
-                              href={`/my-ideas/edit/${idea._id}`}
+                              href={`/my-ideas/update/${idea._id}`}
                               className="btn btn-sm btn-outline btn-primary"
                             >
                               <Edit3 className="w-4 h-4" />
@@ -222,7 +222,7 @@ export default function MyIdeasPage() {
                           </Link>
 
                           <Link
-                            href={`/my-ideas/edit/${idea._id}`}
+                            href={`/my-ideas/update/${idea._id}`}
                             className="btn btn-xs btn-outline btn-primary flex-1"
                           >
                             <Edit3 className="w-3 h-3" />
