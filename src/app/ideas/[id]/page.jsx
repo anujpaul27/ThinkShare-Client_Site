@@ -79,6 +79,18 @@ export default function IdeaDetailPage() {
     setLoadingComment(false);
   };
 
+  const handleDelete = async (commentId)=> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment-delete/${commentId}`, {
+      method: 'DELETE'
+    })
+    console.log(response);
+
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment/${id}`)
+      .then((res) => res.json())
+      .then((data) => setComments(data.data));
+
+  }
+
   const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/${id}`,
     fetcher,
@@ -277,7 +289,7 @@ export default function IdeaDetailPage() {
                           <Link href={`/update/${comment._id}`}>update</Link>
                         </li>
                         <li>
-                          <a>Delete</a>
+                          <a onClick={()=> handleDelete(comment._id)} >Delete</a>
                         </li>
                       </ul>
                     </div>
