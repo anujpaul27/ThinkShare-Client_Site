@@ -89,7 +89,7 @@ export default function LoginPage() {
 
               <Description className="text-xl  my-2 ">
                 {" "}
-                Login and share your idea with us{" "}
+                Login and share your idea with us anuj paul {" "}
               </Description>
               <Fieldset.Group>
                 <TextField isRequired name="email" type="email">
