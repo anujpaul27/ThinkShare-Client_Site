@@ -34,18 +34,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/categories"
+                  href="/my-ideas"
                   className="hover:text-primary transition"
                 >
-                  Categories
+                  My Ideas
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/trending"
+                  href="/my-interactions"
                   className="hover:text-primary transition"
                 >
-                  Trending
+                  Interactions
                 </Link>
               </li>
               <li>

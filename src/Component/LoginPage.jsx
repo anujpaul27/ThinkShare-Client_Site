@@ -27,7 +27,7 @@ export default function LoginPage() {
   //Accept params from proxy and redirect desire route 
   const searchParams = useSearchParams();
   const navigateTo = searchParams.get("callbackUrl") || "/";
-
+  console.log(navigateTo)
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -118,8 +118,8 @@ export default function LoginPage() {
                   {isLoading ? "Loading.." : "Login User"}
                 </Button>
 
-                <Button type="reset" variant="tertiary">
-                  Reset form
+                <Button type="link" variant="tertiary">
+                  Login with Google
                 </Button>
               </Fieldset.Actions>
             </Fieldset>
