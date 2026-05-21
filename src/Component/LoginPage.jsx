@@ -21,39 +21,60 @@ export default function LoginPage() {
   // use state for dynamic submit button
   const [isLoading, setLoading] = useState(false);
 
-  // user router for the redirect
+  // use router for redirect
   const router = useRouter();
-  
-  //Accept params from proxy and redirect desire route 
+
+  // Accept params from proxy and redirect desired route
   const searchParams = useSearchParams();
   const navigateTo = searchParams.get("callbackUrl") || "/";
-  console.log(navigateTo)
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const UserObj = Object.fromEntries(formData.entries());
 
-    // loading true when form submit
-    setLoading(true);
+    // prevent multiple submit
+    if (isLoading) return;
 
-    // User Register with BetterAuth
-    const { data, error } = await authClient.signIn.email(
-      {
-        email: UserObj.email,
-        password: UserObj.password,
-      },
-      {
-        onSuccess: (ctx) => {
-          toast.success("Welcome aboard! Redirecting...");
-          router.push(navigateTo);
+    try {
+      // loading start
+      setLoading(true);
+
+      // get form data
+      const formData = new FormData(e.currentTarget);
+      const UserObj = Object.fromEntries(formData.entries());
+
+      // validation
+      if (!UserObj.email || !UserObj.password) {
+        toast.error("Email and password are required.");
+        return;
+      }
+
+      // BetterAuth Login
+      await authClient.signIn.email(
+        {
+          email: UserObj.email,
+          password: UserObj.password,
         },
-        onError: (ctx) => {
-          // display the error message
-          toast.error(ctx.error.message || "Sign up failed.");
-          setLoading(false);
-        },
-      },
-    );
+        {
+          onSuccess: () => {
+            toast.success("Welcome aboard! Redirecting...");
+            router.push(navigateTo);
+          },
+
+          onError: (ctx) => {
+            toast.error(ctx.error.message || "Login failed.");
+          },
+        }
+      );
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      // loading stop
+      setLoading(false);
+    }
   };
 
   return (
