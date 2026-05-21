@@ -7,10 +7,7 @@ const db = client.db();
 
 export const auth = betterAuth({
   baseURL: process.env.CLIENT_URL,
-  advanced: {
-    useSecureCookies: true, // production এ
-    // cookiePrefix: "better-auth",  // default
-  },
+  
   emailAndPassword: {
     enabled: true,
   },
