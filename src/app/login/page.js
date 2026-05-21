@@ -23,6 +23,8 @@ export default function OnSurface() {
 
   // user router for the redirect
   const router = useRouter();
+  
+  //Accept params from proxy and redirect desire route 
   const searchParams = useSearchParams();
   const navigateTo = searchParams.get("callbackUrl") || "/";
 

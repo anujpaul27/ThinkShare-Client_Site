@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import Loader from '@/Component/loading';
 import useSWR from "swr";
+import { authClient } from '@/lib/auth-client';
 
 
 const mockComments = [
@@ -38,14 +39,19 @@ export default function IdeaDetailPage() {
   const params = useParams();
   const id = params?.id;
 
+  // Get user id from the session
+  const { data: session, isPending } = authClient.useSession();
+  const userID = session?.user?.id;
+  const userImage = session?.user?.ImageURL;
+  const userName = session
+
   const handlePostComment = () => {
     if (!newComment.trim()) return;
     
     const comment = {
-      id: Date.now(),
       name: "You",
       avatar: "https://i.pravatar.cc/150?img=64",
-      time: "Just now",
+      time: Date.now(),
       text: newComment,
       likes: 0,
     };

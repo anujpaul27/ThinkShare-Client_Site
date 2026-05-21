@@ -14,7 +14,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 export default function MyIdeasPage() {
   const [ideaToDelete, setIdeaToDelete] = useState(null);
 
-  // session
+  // Get session
   const { data: session, isPending } = authClient.useSession();
 
   const id = session?.user?.id;

@@ -1,27 +1,44 @@
-import { NextResponse } from 'next/server'
-import { auth } from './lib/auth'
+import { NextResponse } from "next/server";
+import { auth } from "./lib/auth";
 
- 
 // This function can be marked `async` if using `await` inside
-export  async function proxy(request) {
+export async function proxy(request) {
 
-    // 1. call user session with headers 
-    const session = await auth.api.getSession({
-      headers: request.headers
-    })
+  // define pathname for /ideas/:id check router
+  const { pathname } = request.nextUrl
 
-    // 2. if session do not exist return to login page
-    if (!session)
-    {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+  // 1. call user session with headers
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
 
-    // 3. if exist session return access destrinatoin route
-    return NextResponse.next()
+  // if need to access /ideas and not to be /ideas/:id route
+  if (pathname === "/ideas") {
+    return NextResponse.next();
+  }
+
+  // 2. if session do not exist return to login page
+  if (!session) {
+    // get the URL who redirect to login page 
+    const currentUrl = request.nextUrl.pathname; 
+
+    // send http://localhost:3000/login?callbackUrl=/add-idea to frontend
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('callbackUrl', currentUrl);
+
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // 3. if exist session return access destrinatoin route
+  return NextResponse.next();
 }
- 
- 
+
 export const config = {
-    // 4. convert array and write route name inside of this array 
-  matcher:['/add-idea/:path*', '/my-ideas/:path*', '/my-interactions/:path*']
-}
+  // 4. convert array and write route name inside of this array
+  matcher: [
+    "/add-idea/:path*",
+    "/my-ideas/:path*",
+    "/my-interactions/:path*",
+    "/ideas/:path*",
+  ],
+};
