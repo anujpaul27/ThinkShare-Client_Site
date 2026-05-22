@@ -10,7 +10,7 @@ export async function proxy(request) {
 
   // check cookie/session existence only (safe in Edge)
   const sessionToken =
-    request.cookies.get("session")?.value ||
+    request.cookies.get("__Secure-better-auth.session_token")?.value ||
     request.cookies.get("better-auth.session_token")?.value;
 
   // if no session → redirect login
