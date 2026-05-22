@@ -7,6 +7,26 @@ const db = client.db();
 
 export const auth = betterAuth({
   baseURL: process.env.CLIENT_URL,
+
+  advanced: {
+    // Use for the Production  Secure cookies 
+    useSecureCookies: true,
+    
+    // if use this dev and normal cookie + production  __Secure- cookie both working fine 
+    cookiePrefix: "better-auth",
+  },
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://think-share-amber.vercel.app/",    // your domain
+    "https://*.vercel.app",                     // if vercel
+  ],
+
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24, 
+    },
+  },
   
   emailAndPassword: {
     enabled: true,
