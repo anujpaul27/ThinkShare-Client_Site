@@ -104,6 +104,9 @@ export default function Navbar() {
               >
                 
                 <li>
+                  <Link href="/profile"> Profile </Link>
+                </li>
+                <li>
                   <LogoutButton>LogOut</LogoutButton>
                 </li>
               </ul>

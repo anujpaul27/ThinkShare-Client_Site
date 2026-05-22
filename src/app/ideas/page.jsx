@@ -82,7 +82,7 @@ export default function IdeaList() {
           <div className="flex items-center gap-3">
             <TrendingUp className="w-8 h-8 text-primary" />
             <div>
-              <h2 className="text-4xl font-bold">ALL Ideas details over here</h2>
+              <h2 className="text-3xl font-bold">ALL Ideas details over here</h2>
               <p className="mt-1">Popular this week • Updated live</p>
             </div>
           </div>

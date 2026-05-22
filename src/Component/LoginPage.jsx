@@ -1,17 +1,6 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import {
-  Button,
-  Description,
-  FieldError,
-  Fieldset,
-  Form,
-  Input,
-  Label,
-  Surface,
-  TextField,
-} from "@heroui/react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -19,21 +8,41 @@ import { toast } from "sonner";
 
 export default function LoginPage() {
   const [isLoading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+  // Password Validation Function
+  const validatePassword = (password) => {
+    if (!password) return "Password is required";
+    if (password.length < 8) return "Password must be at least 8 characters";
+    if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
+    if (!/[0-9]/.test(password)) return "Password must contain at least one number";
+    return "";
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (isLoading) return;
 
+    const formData = new FormData(e.currentTarget);
+    const { email, password } = Object.fromEntries(formData.entries());
+
+    // Validate Password
+    const error = validatePassword(password);
+    if (error) {
+      setPasswordError(error);
+      toast.error(error);
+      return;
+    }
+
+    setPasswordError("");
     setLoading(true);
 
     try {
-      const formData = new FormData(e.currentTarget);
-      const { email, password } = Object.fromEntries(formData.entries());
-
       if (!email || !password) {
         toast.error("Email and password are required.");
         return;
@@ -48,8 +57,6 @@ export default function LoginPage() {
         {
           onSuccess: () => {
             toast.success("Welcome aboard! Redirecting...");
-
-            // Production এ double navigation + refresh
             router.push(callbackUrl);
             router.refresh();
           },
@@ -68,92 +75,101 @@ export default function LoginPage() {
   };
 
   const handleSignInWithGoogle = async () => {
-    const data = await authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
     });
-
-    console.log(data);
   };
 
   return (
-    <div className="min-h-screen flex justify-center text-center items-center bg-background p-4">
+    <div className="min-h-screen flex justify-center items-center bg-base-200 p-4">
       <div className="w-full max-w-md">
-        <Surface className="p-8 rounded-3xl">
-          <Form onSubmit={onSubmit}>
-            <Fieldset>
-              <Fieldset.Legend className="text-3xl mb-2">
-                Login to ThinkShare
-              </Fieldset.Legend>
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body p-8">
+            <h2 className="text-3xl font-bold text-center mb-2">Login to ThinkShare</h2>
+            <p className="text-base-content/70 text-center mb-8">
+              Login and share your ideas with us
+            </p>
 
-              <Description className="text-lg mb-6">
-                Login and share your ideas with us
-              </Description>
+            <form onSubmit={onSubmit} className="space-y-6">
+              {/* Email Field */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-medium">Email</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  className="input input-bordered w-full"
+                  required
+                />
+              </div>
 
-              <Fieldset.Group className="flex flex-col  ">
-                <TextField isRequired name="email" type="email">
-                  <Label>Email</Label>
-                  <Input placeholder="john@example.com" variant="secondary" />
-                  <FieldError />
-                </TextField>
-
-                <TextField
-                  isRequired
-                  name="password"
+              {/* Password Field with Validation */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-medium">Password</span>
+                </label>
+                <input
                   type="password"
-                  validate={(value) => {
-                    if (value.length < 8)
-                      return "Password must be at least 8 characters";
-                    if (!/[A-Z]/.test(value))
-                      return "Password must contain at least one uppercase letter";
-                    if (!/[0-9]/.test(value))
-                      return "Password must contain at least one number";
-                    return null;
+                  name="password"
+                  placeholder="Enter your password"
+                  className={`input input-bordered w-full ${passwordError ? 'input-error' : ''}`}
+                  required
+                  onChange={(e) => {
+                    if (passwordError) setPasswordError(""); // Clear error while typing
                   }}
-                >
-                  <Label>Password</Label>
-                  <Input
-                    placeholder="Enter your password"
-                    variant="secondary"
-                  />
-                  <Description>
+                />
+                
+                {passwordError && (
+                  <label className="label">
+                    <span className="label-text-alt text-error">{passwordError}</span>
+                  </label>
+                )}
+                
+                <label className="label">
+                  <span className="label-text-alt text-base-content/70">
                     Must be at least 8 characters with 1 uppercase and 1 number
-                  </Description>
-                  <FieldError />
-                </TextField>
+                  </span>
+                </label>
+              </div>
 
-                <p className="text-sm text-center">
-                  Don’t have an account?{" "}
-                  <Link
-                    href="/register"
-                    className="text-primary hover:underline"
-                  >
-                    Register here
-                  </Link>
-                </p>
-              </Fieldset.Group>
-
-              <Fieldset.Actions className="mt-6 flex flex-col gap-3">
-                <Button
-                  type="submit"
-                  isLoading={isLoading}
-                  isDisabled={isLoading}
-                  className="rounded-full w-full"
+              {/* Register Link */}
+              <p className="text-sm text-center">
+                Don’t have an account?{" "}
+                <Link
+                  href="/register"
+                  className="text-primary hover:underline font-medium"
                 >
-                  {isLoading ? "Signing in..." : "Login"}
-                </Button>
+                  Register here
+                </Link>
+              </p>
 
-                <Button
-                  onClick={handleSignInWithGoogle}
+              {/* Buttons */}
+              <div className="space-y-3 mt-8">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="btn btn-primary w-full text-lg"
+                >
+                  {isLoading ? (
+                    <span className="loading loading-spinner loading-md"></span>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+
+                <button
                   type="button"
-                  variant="tertiary"
-                  className="w-full"
+                  onClick={handleSignInWithGoogle}
+                  className="btn btn-outline w-full"
                 >
                   Continue with Google
-                </Button>
-              </Fieldset.Actions>
-            </Fieldset>
-          </Form>
-        </Surface>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
