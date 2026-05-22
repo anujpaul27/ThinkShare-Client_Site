@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const onSubmit = async (e) => {
@@ -43,21 +43,21 @@ export default function LoginPage() {
         {
           email: email,
           password: password,
-          callbackURL: callbackUrl,           
+          callbackURL: callbackUrl,
         },
         {
           onSuccess: () => {
             toast.success("Welcome aboard! Redirecting...");
-            
-            // Production এ double navigation + refresh 
+
+            // Production এ double navigation + refresh
             router.push(callbackUrl);
-            router.refresh();           
+            router.refresh();
           },
 
           onError: (ctx) => {
             toast.error(ctx.error?.message || "Invalid email or password.");
           },
-        }
+        },
       );
     } catch (error) {
       console.error(error);
@@ -65,6 +65,14 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+
+    console.log(data);
   };
 
   return (
@@ -82,8 +90,7 @@ export default function LoginPage() {
               </Description>
 
               <Fieldset.Group className="flex flex-col  ">
-
-                <TextField  isRequired name="email" type="email">
+                <TextField isRequired name="email" type="email">
                   <Label>Email</Label>
                   <Input placeholder="john@example.com" variant="secondary" />
                   <FieldError />
@@ -94,14 +101,20 @@ export default function LoginPage() {
                   name="password"
                   type="password"
                   validate={(value) => {
-                    if (value.length < 8) return "Password must be at least 8 characters";
-                    if (!/[A-Z]/.test(value)) return "Password must contain at least one uppercase letter";
-                    if (!/[0-9]/.test(value)) return "Password must contain at least one number";
+                    if (value.length < 8)
+                      return "Password must be at least 8 characters";
+                    if (!/[A-Z]/.test(value))
+                      return "Password must contain at least one uppercase letter";
+                    if (!/[0-9]/.test(value))
+                      return "Password must contain at least one number";
                     return null;
                   }}
                 >
                   <Label>Password</Label>
-                  <Input placeholder="Enter your password" variant="secondary" />
+                  <Input
+                    placeholder="Enter your password"
+                    variant="secondary"
+                  />
                   <Description>
                     Must be at least 8 characters with 1 uppercase and 1 number
                   </Description>
@@ -110,7 +123,10 @@ export default function LoginPage() {
 
                 <p className="text-sm text-center">
                   Don’t have an account?{" "}
-                  <Link href="/register" className="text-primary hover:underline">
+                  <Link
+                    href="/register"
+                    className="text-primary hover:underline"
+                  >
                     Register here
                   </Link>
                 </p>
@@ -126,7 +142,12 @@ export default function LoginPage() {
                   {isLoading ? "Signing in..." : "Login"}
                 </Button>
 
-                <Button type="button" variant="tertiary" className="w-full">
+                <Button
+                  onClick={handleSignInWithGoogle}
+                  type="button"
+                  variant="tertiary"
+                  className="w-full"
+                >
                   Continue with Google
                 </Button>
               </Fieldset.Actions>

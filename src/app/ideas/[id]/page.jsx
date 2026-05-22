@@ -119,13 +119,14 @@ export default function IdeaDetailPage() {
           className="relative rounded-3xl overflow-hidden h-[380px] md:h-[520px] mb-10 shadow-2xl"
         >
           <Image
-            src={idea.imageUrl}
+            src={idea?.imageUrl}
             alt={idea.title}
             fill
             className="object-cover"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+
 
           <div className="absolute bottom-0 left-0 p-8 md:p-12 text-white">
             <div className="badge badge-primary badge-lg mb-4">
@@ -257,8 +258,8 @@ export default function IdeaDetailPage() {
                 <div className="flex items-center gap-4">
                   <div className="relative w-10 h-10 flex-shrink-0">
                     <Image
-                      src={comment.imageURL || "/default-avatar.png"}
-                      alt={`${comment.name}'s avatar`}
+                      src={comment?.imageURL || "/default-avatar.png"}
+                      alt={`${comment?.name}'s avatar`}
                       fill
                       sizes="40px" //Tells Next.js exactly how large the image will render for performance optimization
                       loading="lazy"
@@ -273,7 +274,7 @@ export default function IdeaDetailPage() {
                     </div>
                   </div>
                   {comment.userID === userID && (
-                    <div class="dropdown dropdown-hover">
+                    <div className="dropdown dropdown-hover">
                       <div
                         tabIndex="0"
                         role="button"
@@ -282,8 +283,8 @@ export default function IdeaDetailPage() {
                         ...
                       </div>
                       <ul
-                        tabindex="0"
-                        class="dropdown-content menu bg-base-100 rounded-box  p-2 shadow text-xs"
+                        tabIndex="0"
+                        className="dropdown-content menu bg-base-100 rounded-box  p-2 shadow text-xs"
                       >
                         <li>
                           <Link href={`/update/${comment._id}`}>update</Link>
