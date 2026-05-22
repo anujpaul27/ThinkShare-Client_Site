@@ -1,3 +1,4 @@
+import Contributors from "@/Component/Contributors";
 import Hero from "@/Component/Hero";
 import HowItWorks from "@/Component/HowItWork";
 import TrendingIdeasPage from "@/Component/TrendingPage";
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero/>
       <TrendingIdeasPage/>
       <HowItWorks/>
+      <Contributors/>
     </div>
   );
 }

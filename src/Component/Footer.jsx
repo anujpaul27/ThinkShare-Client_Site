@@ -179,7 +179,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-base-200 dark:border-neutral-700 lg:mt-12 lg:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
           <p className="text-base-content/60">
-            © {new Date().getFullYear()} ThinkShare. All Rights Reserved.
+            © {new Date().getFullYear()} Anuj Paul . All Rights Reserved.
           </p>
 
           <div className="flex gap-6 text-base-content/60">
