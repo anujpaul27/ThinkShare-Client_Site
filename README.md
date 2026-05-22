@@ -4,7 +4,7 @@ A modern, interactive client-side application for ThinkShare, enabling users to 
 
 ## 🌐 Live Demo
 
-**[Visit ThinkShare Live](https://thinkshare-client.netlify.app)**
+**[Visit ThinkShare Live](https://think-share-amber.vercel.app/)**
 
 ---
 
@@ -24,8 +24,9 @@ A modern, interactive client-side application for ThinkShare, enabling users to 
 
 ## 🛠️ Tech Stack
 
-- **Frontend Framework**: JavaScript (99.9%)
-- **Styling**: CSS (0.1%)
+- **Frontend Framework**: Next.js
+- **Backend Framework**: Express.js, MongoDB, Node.js 
+- **Styling**: DaisyUI, HeroUI
 - **Architecture**: Client-side rendering with modern web standards
 - **Responsive Design**: Mobile-first approach for all devices
 
@@ -35,7 +36,7 @@ A modern, interactive client-side application for ThinkShare, enabling users to 
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- npm or yarn package manager
+- npm package manager
 
 ### Installation
 
@@ -66,27 +67,38 @@ http://localhost:3000
 
 ```
 ThinkShare-Client_Site/
-├── index.html
-├── css/
-│   └── styles.css
-├── js/
-│   ├── main.js
-│   ├── api.js
-│   └── utils.js
-├── assets/
-│   ├── images/
-│   └── icons/
-└── README.md
+src/
+├── app/
+│   ├── add-idea/
+│   ├── api/
+│   ├── ideas/
+│   ├── login/
+│   ├── my-ideas/
+│   ├── my-interactions/
+│   ├── register/
+│   ├── update/
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.js
+│   ├── not-found.js
+│   └── page.js
+│
+├── Component/
+│
+├── lib/
+│
+└── proxy.js
+
 ```
 
 ---
 
 ## 🚀 Deployment
 
-This site is deployed and hosted on **Netlify** for optimal performance and reliability.
+This site is deployed and hosted on **Vercel** for optimal performance and reliability.
 
 ### Deploy Your Own
-1. Connect your GitHub repository to Netlify
+1. Connect your GitHub repository to Vercel
 2. Set build command: `npm run build` (if applicable)
 3. Set publish directory: `./` or `./public` (depending on your build output)
 4. Deploy and enjoy your live site!
@@ -121,7 +133,7 @@ Have questions or suggestions? Feel free to open an issue on GitHub or reach out
 
 - Dark mode toggle
 - Advanced search and filtering
-- Notification system
+- User Specific feature
 - User analytics dashboard
 - Mobile app version
 

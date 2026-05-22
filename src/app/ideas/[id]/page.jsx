@@ -154,10 +154,7 @@ export default function IdeaDetailPage() {
                 <Calendar className="w-5 h-5" />
                 <span>Posted 3 days ago</span>
               </div>
-              <div className="flex items-center gap-2">
-                <User className="w-5 h-5" />
-                <span>by Fahim Chowdhury</span>
-              </div>
+              
             </div>
 
             {/* Problem Statement */}

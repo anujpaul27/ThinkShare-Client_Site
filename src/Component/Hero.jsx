@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from "@heroui/react";
+import Link from "next/link";
 
 export default function Hero() {
   const [showText, setShowText] = useState(false);
@@ -74,13 +76,16 @@ export default function Hero() {
               </motion.h1>
 
               <motion.p 
-                className="text-xl sm:text-2xl md:text-3xl text-primary/90 mt-4 font-light tracking-wide"
+                className="text-xl  sm:text-2xl md:text-3xl text-primary/90 mt-4 font-light tracking-wide"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
                 Where Ideas Become Reality
               </motion.p>
+                <Button >
+                  <Link href={'/ideas'}>Explore Ideas</Link>
+                </Button>
             </motion.div>
           )}
         </AnimatePresence>

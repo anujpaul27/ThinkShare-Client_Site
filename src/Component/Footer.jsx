@@ -110,7 +110,7 @@ export default function Footer() {
                 className="btn btn-ghost btn-circle hover:text-blue-600"
               >
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -130,7 +130,7 @@ export default function Footer() {
                 className="btn btn-ghost btn-circle hover:text-blue-700"
               >
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -151,7 +151,7 @@ export default function Footer() {
                 className="btn btn-ghost btn-circle hover:text-gray-800 dark:hover:text-white"
               >
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
