@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { TrendingUp, Search, X } from "lucide-react";
 import Loader from "@/Component/loading";
 
+
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {

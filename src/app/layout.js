@@ -16,10 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: {
-    template: '%s | My Store',
-    default: 'My Store', // Used if a page doesn't define its own title
-  },
+  title: 'ThinkShare',
+  description: 'This is the best idea share platform '
 }
 
 
