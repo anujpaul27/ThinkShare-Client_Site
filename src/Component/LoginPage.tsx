@@ -3,8 +3,9 @@
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, type FormEvent } from "react";
 import { toast } from "sonner";
+import type { FormValues } from "@/types";
 
 export default function LoginPage() {
   const [isLoading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ export default function LoginPage() {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   // Password Validation Function
-  const validatePassword = (password) => {
+  const validatePassword = (password: string) => {
     if (!password) return "Password is required";
     if (password.length < 8) return "Password must be at least 8 characters";
     if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
@@ -24,12 +25,12 @@ export default function LoginPage() {
     return "";
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading) return;
 
     const formData = new FormData(e.currentTarget);
-    const { email, password } = Object.fromEntries(formData.entries());
+    const { email, password } = Object.fromEntries(formData.entries()) as FormValues;
 
     // Validate Password
     const error = validatePassword(password);

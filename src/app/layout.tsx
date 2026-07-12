@@ -4,6 +4,7 @@ import Navbar from "@/Component/navbar";
 import ThemeProvider from "@/Component/ThameProvider";
 import { Toaster } from "sonner";
 import Footer from "@/Component/Footer";
+import type { ReactNode } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,7 @@ export const metadata = {
 }
 
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
