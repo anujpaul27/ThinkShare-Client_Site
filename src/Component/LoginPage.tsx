@@ -1,11 +1,11 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import type { FormValues } from "@/types";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const [isLoading, setLoading] = useState(false);

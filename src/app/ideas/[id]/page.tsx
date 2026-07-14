@@ -4,7 +4,7 @@ import IdeaDetailPage from "@/Component/IdeaDetails";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  console.log(id);
+  // console.log(id);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/idea/${id}`,
@@ -29,6 +29,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default function Page({ params }) {
-  return <IdeaDetailPage id={params.id} />;
+export default async function Page({ params }) {
+  const {id} = await params
+  return <IdeaDetailPage id = {id} />;
 }
