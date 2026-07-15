@@ -32,11 +32,24 @@ const cardVariants = {
   },
 };
 
+
+// Type Definitions
+interface Idea {
+  _id: string;
+  title: string;
+  shortDescription?: string;
+  imageUrl?: string;
+  category?: string;
+  author_id?: string;
+  createdAt?: string;
+  [key: string]: any; // For any additional fields
+}
+
 export default function IdeaList() {
-     const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [ideas, setIdeas] = useState([]);
-  const [loading, setLoading] = useState(true);
+     const [searchQuery, setSearchQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+  const [ideas, setIdeas] = useState<Idea[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Debounce
   useEffect(() => {

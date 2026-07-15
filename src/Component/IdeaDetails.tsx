@@ -17,14 +17,26 @@ import useSWR from "swr";
 import { authClient } from "@/lib/auth-client";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { ParamValue } from "next/dist/server/request/params";
+
+// Type interfaces
+interface comment {
+    _id: string ;
+    userID: string | undefined;
+    postID: ParamValue;
+    name: string | undefined;
+    imageURL: string | null | undefined;
+    time: string;
+    text: string;
+}
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function IdeaDetailPage() {
-  const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
-  const [loadingComment, setLoadingComment] = useState(false);
+  const [newComment, setNewComment] = useState<string>("");
+  const [comments, setComments] = useState<comment[]>([]);
+  const [loadingComment, setLoadingComment] = useState<boolean>(false);
 
   const params = useParams();
   const id = params?.id;
@@ -80,7 +92,7 @@ export default function IdeaDetailPage() {
     setLoadingComment(false);
   };
 
-  const handleDelete = async (commentId) => {
+  const handleDelete = async (commentId:any) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/comment-delete/${commentId}`,
       {

@@ -31,18 +31,18 @@ interface UserSession {
 }
 
 interface IdeaFormData {
-  [key: string]:string | null | undefined;
-  category: string;
-  detailedDescription: string;
-  estimatedBudget: string;
-  imageUrl: string;
-  problemStatement: string;
-  proposedSolution: string;
-  shortDescription: string;
-  tags: string;
-  targetAudience: string;
-  title: string;
-  author_id:string;
+  [key: string]:string | FormDataEntryValue | undefined;
+  category?: string ;
+  detailedDescription?: string ;
+  estimatedBudget?: string ;
+  imageUrl?: string ;
+  problemStatement?: string ;
+  proposedSolution?: string ;
+  shortDescription?: string ;
+  tags?: string ;
+  targetAudience?: string ;
+  title?: string ;
+  author_id?:string ;
 }
 
 export default function AddIdeaPage() {
