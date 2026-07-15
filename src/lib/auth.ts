@@ -31,7 +31,7 @@ export const auth = betterAuth({
   session: {
     cookieCache: {
       enabled: true,
-      strategy: 'jwt',
+      strategy: "jwt",
       maxAge: 60 * 60 * 24,
     },
   },
@@ -40,12 +40,21 @@ export const auth = betterAuth({
     enabled: true,
   },
 
+  user: {
+    additionalFields: {
+      userType: {
+        type: "string",
+        defaultValue: "user",
+        input: true,
+      },
+    },
+  },
+
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client,
   }),
 
-  plugins: [
-        jwt()
-    ]
+  plugins: [jwt()],
+  
 });
