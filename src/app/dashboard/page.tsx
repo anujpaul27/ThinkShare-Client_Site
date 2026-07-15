@@ -11,15 +11,18 @@ export default function DashboardRedirectPage() {
   useEffect(() => {
     const redirectToDashboard = async () => {
       try {
-        const session = await authClient.getSession();
+        const sessionResponse = await authClient.getSession() as {
+          data?: { session?: { user?: { role?: string } } };
+          error?: unknown;
+        };
 
-        if (!session) {
+        if ("error" in sessionResponse || !sessionResponse.data?.session) {
           router.push("/login");
           return;
         }
 
         // Determine role - TODO: Get from backend/session
-        const role = (session.user as any)?.role || "user";
+        const role = (sessionResponse.data.session.user as any)?.role || "user";
         router.push(`/dashboard/${role}`);
       } catch (error) {
         console.error("Error redirecting:", error);

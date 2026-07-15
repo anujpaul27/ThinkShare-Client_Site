@@ -14,9 +14,9 @@ export default function DashboardPage() {
     const getSession = async () => {
       try {
         const session = await authClient.getSession();
-        if (session) {
-          setUserName(session.user?.name || "User");
-          setUserRole((session.user as any)?.role || "user");
+        if (session && session.data) {
+          setUserName(session.data.user?.name || "User");
+          setUserRole((session.data.user as any)?.role || "user");
         }
       } catch (error) {
         console.error("Error fetching session:", error);

@@ -24,6 +24,12 @@ const nextConfig = {
         hostname: 'ui-avatars.com',
         pathname: '/**',                 
       },
+       {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   

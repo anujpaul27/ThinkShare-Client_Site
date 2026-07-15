@@ -6,7 +6,7 @@ import { Camera, Save, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-//  TYPES 
+// ==================== TYPES ====================
 interface UserSession {
   user?: {
     id: string;
@@ -54,7 +54,7 @@ export default function ProfilePage() {
   };
 
   const handleSave = async () => {
-    if (!formData.name.trim()) {
+    if (!formData.name?.trim()) {
       toast.error("Name is required");
       return;
     }
@@ -71,7 +71,7 @@ export default function ProfilePage() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.name,
+          name: formData.name.trim(),
           id: session.user.id,
         }),
       });
@@ -92,18 +92,18 @@ export default function ProfilePage() {
     }
   };
 
-  // Loading & Auth Guard
+  // Auth & Loading Guard
   if (isPending) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading...
+        <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
   }
 
   if (!session?.user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center text-xl">
         Please login first
       </div>
     );
@@ -129,6 +129,7 @@ export default function ProfilePage() {
                     width={160}
                     height={160}
                     className="object-cover"
+                    priority
                   />
                 ) : (
                   <div className="w-full h-full bg-base-300 flex items-center justify-center">
@@ -138,13 +139,13 @@ export default function ProfilePage() {
               </div>
 
               {isEditing && (
-                <label className="absolute bottom-2 right-2 bg-primary text-white p-3 rounded-full cursor-pointer hover:bg-primary-focus transition">
+                <label className="absolute bottom-2 right-2 bg-primary text-white p-3 rounded-full cursor-pointer hover:bg-primary-focus transition-colors">
                   <Camera className="w-5 h-5" />
                   <input
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    // Add onChange handler when implementing image upload
+                    // TODO: Implement image upload later
                   />
                 </label>
               )}
@@ -164,7 +165,7 @@ export default function ProfilePage() {
                 onChange={handleChange}
                 disabled={!isEditing}
                 className="input input-bordered w-full"
-                placeholder="Your name"
+                placeholder="Your full name"
               />
             </div>
 
@@ -176,7 +177,7 @@ export default function ProfilePage() {
                 type="email"
                 value={formData.email}
                 disabled
-                className="input input-bordered w-full bg-base-200"
+                className="input input-bordered w-full bg-base-200 cursor-not-allowed"
               />
               <p className="text-xs text-base-content/60 mt-1">Email cannot be changed</p>
             </div>

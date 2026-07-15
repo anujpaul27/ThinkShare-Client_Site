@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface DashboardSidebarProps {
-  userRole: "user" | "admin";
+  userRole: string;
 }
 
 export default function DashboardSidebar({ userRole }: DashboardSidebarProps) {
@@ -44,6 +44,21 @@ export default function DashboardSidebar({ userRole }: DashboardSidebarProps) {
       href: `/dashboard/${userRole}`,
       icon: LayoutDashboard,
     },
+    ...(userRole === "admin"
+      ? [
+          {
+            label: "All Ideas",
+            href: `/dashboard/${userRole}/all-ideas`,
+            icon: BookOpen,
+          },
+          {
+            label: "All Users",
+            href: `/dashboard/${userRole}/all-users`,
+            icon: User,
+          },
+        ]
+      : []),
+    
     {
       label: "Add Idea",
       href: `/dashboard/${userRole}/add-idea`,
@@ -64,20 +79,7 @@ export default function DashboardSidebar({ userRole }: DashboardSidebarProps) {
       href: `/dashboard/${userRole}/profile`,
       icon: User,
     },
-    ...(userRole === "admin"
-      ? [
-          {
-            label: "All Ideas",
-            href: `/dashboard/${userRole}/all-ideas`,
-            icon: BookOpen,
-          },
-          {
-            label: "All Users",
-            href: `/dashboard/${userRole}/all-users`,
-            icon: User,
-          },
-        ]
-      : []),
+    
   ];
 
   return (

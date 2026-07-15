@@ -23,7 +23,8 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme(); // If using next-themes
 
   // Check user login or not
-  const { data, isPending } = authClient.useSession();
+  const { data, isPending } = authClient.useSession() as any;
+  console.log(data);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -51,9 +52,9 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/ideas" className="flex items-center gap-1.5">
+            <Link href={`/dashboard`} className="flex items-center gap-1.5">
               <Lightbulb className="w-4 h-4" />
-              Ideas
+              Dashboard
             </Link>
           </li>
         </ul>
@@ -78,11 +79,11 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-2">
           <Link href="/add-idea" className="btn btn-primary btn-sm gap-2">
             <PlusCircle className="w-4 h-4" />
-            Add Idea
+            Blog 
           </Link>
 
           <Link href="/my-ideas" className="btn btn-ghost btn-sm">
-            My Ideas
+            Contract
           </Link>
 
           <Link href="/my-interactions" className="btn btn-ghost btn-sm">

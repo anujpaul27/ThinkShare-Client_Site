@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -6,39 +6,52 @@ import { authClient } from "@/lib/auth-client";
 import DashboardLayout from "@/Component/Dashboard/DashboardLayout";
 import { Loader } from "lucide-react";
 
+type UserRole = "user" | "admin";
+
+interface SessionUser {
+  userType?: {
+    role?: string;
+  };
+  // Add other possible user properties if needed
+}
+
 export default function DashboardRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [userRole, setUserRole] = useState<"user" | "admin" | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const router = useRouter();
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const session = await authClient.getSession();
-
-        if (!session) {
+        console.log(session);
+        if (!session.data) {
           router.push("/login");
           return;
         }
 
-        // Get user role from session or set default to "user"
-        // TODO: Implement role retrieval from backend/session
-        const role = (session.user as any)?.role || "user";
-        setUserRole(role as "user" | "admin");
-        setLoading(false);
+        // Handle different possible session structures
+        const sessionAny = session as any;
+        const user = sessionAny?.data?.user ?? sessionAny?.user ?? null;
+        const role = user?.userType;
+        setUserRole(role)
       } catch (error) {
         console.error("Auth error:", error);
         router.push("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     checkAuth();
   }, [router]);
 
+  // Loading State
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
@@ -50,7 +63,9 @@ export default function DashboardRootLayout({
     );
   }
 
+  // If no valid role (should rarely happen)
   if (!userRole) {
+    router.push("/login");
     return null;
   }
 

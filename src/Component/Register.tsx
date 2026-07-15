@@ -115,7 +115,6 @@ export default function RegisterUser() {
                 <Input
                   placeholder="John Doe"
                   variant="secondary"
-                  size="lg"
                 />
                 <FieldError />
               </TextField>
@@ -125,7 +124,6 @@ export default function RegisterUser() {
                 <Input
                   placeholder="john@example.com"
                   variant="secondary"
-                  size="lg"
                 />
                 <FieldError />
               </TextField>
@@ -145,7 +143,6 @@ export default function RegisterUser() {
                 <Input
                   placeholder="Enter your password"
                   variant="secondary"
-                  size="lg"
                 />
                 <Description className="text-sm text-gray-500">
                   Minimum 8 characters with uppercase and number
@@ -175,7 +172,6 @@ export default function RegisterUser() {
                 type="submit"
                 isDisabled={isLoading}
                 className="w-full rounded-2xl py-6 text-base font-semibold"
-                size="lg"
               >
                 {isLoading ? "Creating Account..." : "Create Account"}
               </Button>

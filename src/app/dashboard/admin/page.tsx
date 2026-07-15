@@ -12,10 +12,12 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const getSession = async () => {
       try {
-        const session = await authClient.getSession();
-        if (session) {
-          setUserName(session.user?.name || "Admin");
-        }
+        // authClient.getSession() returns an object with a `data` property
+        // that contains the user info. Use optional chaining to avoid
+        // TypeScript errors when the shape is different.
+        const res = (await authClient.getSession()) as any;
+        const name = res?.data?.user?.name ?? res?.user?.name ?? "Admin";
+        setUserName(name);
       } catch (error) {
         console.error("Error fetching session:", error);
       }

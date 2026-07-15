@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Loader, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Idea {
   _id: string;
@@ -11,6 +13,7 @@ interface Idea {
   category: string;
   author_id?: string;
   imageUrl?: string;
+  status?: "active" | "unactive";
 }
 
 export default function AdminAllIdeasPage() {
@@ -18,48 +21,63 @@ export default function AdminAllIdeasPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const demoIdeas: Idea[] = [
-      {
-        _id: "1",
-        title: "AI-Powered Health Monitoring App",
-        shortDescription:
-          "A mobile app that uses AI to monitor user health data",
-        category: "Health & Fitness",
-        author_id: "user123",
-        imageUrl: "https://via.placeholder.com/150",
-      },
-      {
-        _id: "2",
-        title: "Sustainable Packaging Solution",
-        shortDescription: "Biodegradable packaging material for e-commerce",
-        category: "Sustainability",
-        author_id: "user456",
-        imageUrl: "https://via.placeholder.com/150",
-      },
-      {
-        _id: "3",
-        title: "Smart Classroom Learning Platform",
-        shortDescription: "Interactive platform for remote learning",
-        category: "Education",
-        author_id: "user789",
-        imageUrl: "https://via.placeholder.com/150",
-      },
-      {
-        _id: "4",
-        title: "Blockchain-Based Supply Chain",
-        shortDescription: "Track products from manufacture to delivery",
-        category: "Technology",
-        author_id: "user101",
-        imageUrl: "https://via.placeholder.com/150",
-      },
-    ];
-
-    setIdeas(demoIdeas);
+    const fetchAllIdea =async ()=> 
+    {
+      try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/read-idea-all`);
+      const result: any = await res.json()
+      console.log(result);
+      setIdeas(result.data)
+    } catch (err:any) {
+      console.log(err.message);
+      toast.error("Failed to update idea status");
+    }
+    }    
+    fetchAllIdea()
     setLoading(false);
   }, []);
 
-  const handleDelete = (id: string) => {
-    setIdeas(ideas.filter((idea) => idea._id !== id));
+
+  // delete idea
+  const handleDelete = async (id:string) => {
+    try {
+      // example delete api
+      await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/idea-delete/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
+      setIdeas(ideas.filter((idea) => idea._id !== id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const toggleIdeaStatus = async (
+    id: string,
+    current: "active" | "unactive" | undefined,
+  ) => {
+    const newStatus = current === "active" ? "unactive" : "active";
+    setIdeas((prev) =>
+      prev.map((i) => (i._id === id ? { ...i, status: newStatus } : i)),
+    );
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/ideas/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+    } catch (err) {
+      console.error(err);
+      setIdeas((prev) =>
+        prev.map((i) =>
+          i._id === id ? { ...i, status: current || "unactive" } : i,
+        ),
+      );
+      toast.error("Failed to update idea status");
+    }
   };
 
   return (
@@ -70,20 +88,24 @@ export default function AdminAllIdeasPage() {
       </div>
 
       {/* Ideas Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1  gap-6">
         {ideas.length > 0 ? (
           ideas.map((idea) => (
             <div
               key={idea._id}
               className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition overflow-hidden"
             >
-              {/* Image Placeholder */}
-              <div className="w-full h-48 bg-gradient-to-br from-orange-300 to-orange-500 flex items-center justify-center">
-                <span className="text-white text-4xl">📋</span>
-              </div>
+              
 
               {/* Content */}
               <div className="p-6">
+                <div className="mb-3">
+                  <span
+                    className={`inline-block text-xs font-semibold px-3 py-1 rounded-full ${idea.status === "active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-700"}`}
+                  >
+                    {idea.status ?? "unactive"}
+                  </span>
+                </div>
                 <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
                   {idea.title}
                 </h3>
@@ -115,6 +137,12 @@ export default function AdminAllIdeasPage() {
                   >
                     <Trash2 size={16} />
                     Delete
+                  </button>
+                  <button
+                    className={`flex-1 ${idea.status === "active" ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700"} text-white font-semibold py-2 px-3 rounded-lg transition flex items-center justify-center gap-2 text-sm`}
+                    onClick={() => toggleIdeaStatus(idea._id, idea.status)}
+                  >
+                    {idea.status === "active" ? "Deactivate" : "Activate"}
                   </button>
                 </div>
               </div>
