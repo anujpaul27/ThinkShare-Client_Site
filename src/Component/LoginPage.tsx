@@ -8,8 +8,8 @@ import type { FormValues } from "@/types";
 import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
-  const [isLoading, setLoading] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<string>("");
   
   const router = useRouter();
   const searchParams = useSearchParams();

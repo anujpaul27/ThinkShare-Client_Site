@@ -27,10 +27,25 @@ const categories = [
   "Others",
 ];
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url:any) => fetch(url).then((res) => res.json());
+
+interface IdeaFormData {
+  [key: string]:string | FormDataEntryValue | undefined;
+  category?: string ;
+  detailedDescription?: string ;
+  estimatedBudget?: string ;
+  imageUrl?: string ;
+  problemStatement?: string ;
+  proposedSolution?: string ;
+  shortDescription?: string ;
+  tags?: string ;
+  targetAudience?: string ;
+  title?: string ;
+  author_id?:string ;
+}
 
 export default function IdeaDetailPage() {
-const [isSubmitting, setIsSubmitting] = useState(false)
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 const router = useRouter()
     
   const params = useParams();
@@ -50,7 +65,7 @@ const router = useRouter()
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    const UserObj = Object.fromEntries(formData.entries());
+    const UserObj:IdeaFormData = Object.fromEntries(formData.entries());
     UserObj.author_id = data?.user?.id;
 
     const post = await fetch(
