@@ -13,8 +13,9 @@ import {
   TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, type FormEvent } from "react";
 import { toast } from "sonner";
+import type { FormValues } from "@/types";
 
 export default function RegisterUser() {
   // use state for dynamic submit button
@@ -23,10 +24,10 @@ export default function RegisterUser() {
   // user router for the redirect
   const router = useRouter();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const UserObj = Object.fromEntries(formData.entries());
+    const UserObj = Object.fromEntries(formData.entries()) as FormValues;
 
     // loading true when form submit
     setLoading(true);
@@ -71,7 +72,7 @@ export default function RegisterUser() {
                 <TextField
                   isRequired
                   name="name"
-                  validate={(value) => {
+                  validate={(value: string) => {
                     if (value.length < 3) {
                       return "Name must be at least 3 characters";
                     }
@@ -95,7 +96,7 @@ export default function RegisterUser() {
                   minLength={8}
                   name="password"
                   type="password"
-                  validate={(value) => {
+                  validate={(value: string) => {
                     if (value.length < 8) {
                       return "Password must be at least 8 characters";
                     }
