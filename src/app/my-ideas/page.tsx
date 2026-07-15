@@ -9,16 +9,23 @@ import useSWR from "swr";
 import Loader from "@/Component/loading";
 import { authClient } from "@/lib/auth-client";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url:any) => fetch(url).then((res) => res.json());
+
+// Type Interface
+interface UserSession {
+  user?: {
+    id: string;
+  };
+}
 
 export default function MyIdeasPage() {
-  const [ideaToDelete, setIdeaToDelete] = useState(null);
-
-  // get token 
-  
+  const [ideaToDelete, setIdeaToDelete] = useState<string | null>(null);  
 
   // Get session
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession() as {
+    data: UserSession | null;
+    isPending: boolean;
+  };
 
   const id = session?.user?.id;
 
@@ -29,7 +36,7 @@ export default function MyIdeasPage() {
   );
 
   // delete idea
-  const handleDelete = async (ideaId) => {
+  const handleDelete = async (ideaId:string) => {
     try {
       // example delete api
       await fetch(
@@ -106,7 +113,7 @@ export default function MyIdeasPage() {
 
                 <tbody>
                   <AnimatePresence>
-                    {ideas.map((idea, index) => (
+                    {ideas.map((idea:any, index:number) => (
                       <motion.tr
                         key={idea._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -181,7 +188,7 @@ export default function MyIdeasPage() {
             {/* Mobile Card Layout */}
             <div className="md:hidden p-3 space-y-4">
               <AnimatePresence>
-                {ideas.map((idea, index) => (
+                {ideas.map((idea:any, index:number) => (
                   <motion.div
                     key={idea._id}
                     initial={{ opacity: 0, y: 20 }}

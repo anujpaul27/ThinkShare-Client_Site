@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function proxy(request) {
+export async function proxy(request:any) {
   const { pathname } = request.nextUrl;
 
   // allow public route

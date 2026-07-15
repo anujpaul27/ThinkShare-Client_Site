@@ -6,8 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { TrendingUp, Search, X } from "lucide-react";
 import Loader from "@/Component/loading";
-
-
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,26 +16,23 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-  hover: {
-    y: -8,
-    scale: 1.02,
-    transition: { duration: 0.3 },
-  },
-};
+// Type Definitions
+interface Idea {
+  _id: string;
+  title: string;
+  shortDescription?: string;
+  imageUrl?: string;
+  category?: string;
+  author_id?: string;
+  createdAt?: string;
+  [key: string]: any; // For any additional fields
+}
 
 export default function IdeaList() {
-     const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [ideas, setIdeas] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+  const [ideas, setIdeas] = useState<Idea[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Debounce
   useEffect(() => {
@@ -61,7 +57,7 @@ export default function IdeaList() {
       try {
         const res = await fetch(url);
         const result = await res.json();
-        
+
         setIdeas(result.data || result.results || []);
       } catch (error) {
         console.error("Fetch error:", error);
@@ -84,7 +80,9 @@ export default function IdeaList() {
           <div className="flex items-center gap-3">
             <TrendingUp className="w-8 h-8 text-primary" />
             <div>
-              <h2 className="text-3xl font-bold">ALL Ideas details over here</h2>
+              <h2 className="text-3xl font-bold">
+                ALL Ideas details over here
+              </h2>
               <p className="mt-1">Popular this week • Updated live</p>
             </div>
           </div>
@@ -111,7 +109,8 @@ export default function IdeaList() {
             </div>
             {debouncedQuery && (
               <p className="text-sm text-base-content/60 mt-2">
-                Showing results for: <span className="font-medium">{debouncedQuery}</span>
+                Showing results for:{" "}
+                <span className="font-medium">{debouncedQuery}</span>
               </p>
             )}
           </div>
@@ -127,19 +126,20 @@ export default function IdeaList() {
         >
           {ideas.length === 0 ? (
             <div className="col-span-full text-center py-20">
-              <p className="text-2xl text-base-content/70">No ideas found for {debouncedQuery}</p>
+              <p className="text-2xl text-base-content/70">
+                No ideas found for {debouncedQuery}
+              </p>
             </div>
           ) : (
             ideas.map((idea) => (
               <motion.div
                 key={idea._id}
-                variants={cardVariants}
                 whileHover="hover"
                 className="card bg-base-100 shadow-md hover:shadow-2xl transition-shadow duration-300 group border border-base-200 overflow-hidden"
               >
                 <figure className="relative h-52 overflow-hidden">
                   <Image
-                    src={idea.imageUrl}
+                    src={idea.imageUrl || ""}
                     alt={idea.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"

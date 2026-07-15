@@ -17,14 +17,26 @@ import useSWR from "swr";
 import { authClient } from "@/lib/auth-client";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { ParamValue } from "next/dist/server/request/params";
+
+// Type interfaces
+interface comment {
+    _id: string | undefined  ;
+    userID: string | undefined;
+    postID: ParamValue;
+    name: string | undefined;
+    imageURL: string | null | undefined;
+    time: string;
+    text: string;
+}
 
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url:any) => fetch(url).then((res) => res.json());
 
 export default function IdeaDetailPage() {
-  const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
-  const [loadingComment, setLoadingComment] = useState(false);
+  const [newComment, setNewComment] = useState<string>("");
+  const [comments, setComments] = useState<comment[]>([]);
+  const [loadingComment, setLoadingComment] = useState<boolean>(false);
 
   const params = useParams();
   const id = params?.id;
@@ -73,14 +85,15 @@ export default function IdeaDetailPage() {
 
     if (response.ok) {
       toast.success("Comment Added Successful.");
+      const responseData = await response.json();
+      const commentWithId = { ...comment, _id: responseData._id };
+      setComments([commentWithId, ...comments]);
     }
-
-    setComments([comment, ...comments]);
     setNewComment("");
     setLoadingComment(false);
   };
 
-  const handleDelete = async (commentId) => {
+  const handleDelete = async (commentId:any) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/comment-delete/${commentId}`,
       {
@@ -198,7 +211,7 @@ export default function IdeaDetailPage() {
               <div className="h-px bg-base-300 dark:bg-neutral-700 my-8" />
 
               <div className="flex flex-wrap gap-2">
-                {idea.tags.map((tag, i) => (
+                {idea.tags.map((tag:any, i:any) => (
                   <div key={i} className="badge badge-neutral badge-outline">
                     #{tag}
                   </div>
@@ -274,14 +287,14 @@ export default function IdeaDetailPage() {
                   {comment.userID === userID && (
                     <div className="dropdown dropdown-hover">
                       <div
-                        tabIndex="0"
+                        tabIndex={0}
                         role="button"
                         className="btn lg:btn-sm btn-xs m-1"
                       >
                         ...
                       </div>
                       <ul
-                        tabIndex="0"
+                        tabIndex={0}
                         className="dropdown-content menu bg-base-100 rounded-box  p-2 shadow text-xs"
                       >
                         <li>

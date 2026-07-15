@@ -7,19 +7,39 @@ import Image from "next/image";
 import Loader from "@/Component/loading";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { ParamValue } from "next/dist/server/request/params";
+
+interface comment {
+    _id: string ;
+    userID: string | undefined;
+    postID: ParamValue;
+    name: string | undefined;
+    imageURL: string | null | undefined;
+    time: string;
+    text: string;
+}
+type strNull = string | null;
+
+interface UserSession {
+  user?: {
+    id: string;
+  };
+}
 
 export default function MyInteractionsPage() {
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState<comment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [editingId, setEditingId] = useState(null);
-  const [commentText, setCommentText] = useState("");
+  const [editingId, setEditingId] = useState<strNull>(null);
+  const [commentText, setCommentText] = useState<string>("");
 
-  const [deleteId, setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState<strNull>(null);
 
   // session
-  const { data: session, isPending } = authClient.useSession();
-
+  const { data: session, isPending } = authClient.useSession() as {
+    data: UserSession | undefined ;
+    isPending: boolean
+  };
   const id = session?.user?.id;
 
   // fetch comments
@@ -35,7 +55,7 @@ export default function MyInteractionsPage() {
   }, [id]);
 
   // delete comment
-  const handleDelete = async (commentId) => {
+  const handleDelete = async (commentId:string) => {
     try {
       await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/comment-delete/${commentId}`,
@@ -100,8 +120,8 @@ export default function MyInteractionsPage() {
                     {/* Image */}
                     <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0">
                       <Image
-                        src={comment?.imageURL}
-                        alt={comment?.name}
+                        src={comment?.imageURL || ""}
+                        alt={comment?.name || ""}
                         fill
                         className="object-cover"
                       />
@@ -141,7 +161,6 @@ export default function MyInteractionsPage() {
                       {/* Text */}
                       {editingId === comment._id ? (
                         <form
-                          onSubmit={handleFormSubmit}
                           className="mt-4"
                         >
                           <textarea

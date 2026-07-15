@@ -25,7 +25,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
   hover: {
     y: -8,
@@ -34,7 +34,7 @@ const cardVariants = {
   },
 };
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url:string) => fetch(url).then((res) => res.json());
 
 export default function TrendingIdeasPage() {
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/read-idea`, fetcher);
@@ -68,10 +68,9 @@ export default function TrendingIdeasPage() {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {trendingIdeas.map((idea) => (
+          {trendingIdeas.map((idea:any) => (
             <motion.div
               key={idea._id}
-              variants={cardVariants}
               whileHover="hover"
               className="card bg-base-100 shadow-md hover:shadow-2xl transition-shadow duration-300 group border border-base-200  overflow-hidden"
             >
