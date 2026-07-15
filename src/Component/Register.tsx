@@ -19,7 +19,7 @@ import type { FormValues } from "@/types";
 
 export default function RegisterUser() {
   // use state for dynamic submit button
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   // user router for the redirect
   const router = useRouter();

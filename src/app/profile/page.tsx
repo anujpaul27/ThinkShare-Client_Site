@@ -6,11 +6,21 @@ import { Camera, Save, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-export default function ProfilePage() {
-  const { data: session, isPending, update } = authClient.useSession();
+// Type Interface 
+interface UserSession {
+  user?: {
+    id: string;
+  }
+}
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
+export default function ProfilePage() {
+  const { data: session, isPending } = authClient.useSession() as {
+    data: UserSession | undefined;
+    isPending: boolean;
+  };
+
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [formData, setFormData] = useState({
     name: "",
