@@ -43,6 +43,7 @@ interface IdeaFormData {
   targetAudience?: string ;
   title?: string ;
   author_id?:string ;
+  status?: string;
 }
 
 export default function AddIdeaPage() {
@@ -64,6 +65,7 @@ export default function AddIdeaPage() {
     // Add author_id from session
     if (data?.user?.id) {
       UserObj.author_id = data.user.id;
+      UserObj.status = 'unactive'
     }
 
     const post = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/create-idea`,{
