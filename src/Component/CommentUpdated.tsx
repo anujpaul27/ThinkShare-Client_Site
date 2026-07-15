@@ -4,26 +4,22 @@ import React from "react";
 import { Button, Modal, useOverlayState } from "@heroui/react";
 
 export default function InfoModal() {
-  // useOverlayState handles open, close, and toggle states cleanly
   const modalState = useOverlayState();
 
   return (
     <div className="p-4">
-      {/* Trigger Button */}
-      <Button color="primary" onPress={modalState.open}>
-        Show Information
-      </Button>
-
-      {/* Modal Component Tree */}
+      {/* Trigger Button - Best placed inside Modal for automatic behavior */}
       <Modal state={modalState}>
-        {/* Backdrop variant options: "opaque", "blur", "transparent" */}
+        <Button >
+          Show Information
+        </Button>
+
+        {/* Modal Content */}
         <Modal.Backdrop variant="blur" />
-        
-        {/* Container sets the overall wrapper size: "xs", "sm", "md", "lg", etc. */}
+
         <Modal.Container size="md">
           <Modal.Dialog>
-            {/* Close button icon automatically rendered in the top corner */}
-            <Modal.CloseTrigger /> 
+            <Modal.CloseTrigger />
 
             <Modal.Header>
               <Modal.Heading className="text-xl font-bold">
@@ -43,11 +39,10 @@ export default function InfoModal() {
             </Modal.Body>
 
             <Modal.Footer className="gap-2">
-              {/* slot="close" automatically wires up the closing trigger */}
-              <Button variant="flat" slot="close">
+              <Button  slot="close">
                 Dismiss
               </Button>
-              <Button color="primary" onPress={modalState.close}>
+              <Button  >
                 Understood
               </Button>
             </Modal.Footer>

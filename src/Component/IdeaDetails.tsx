@@ -21,7 +21,7 @@ import { ParamValue } from "next/dist/server/request/params";
 
 // Type interfaces
 interface comment {
-    _id: string ;
+    _id: string | undefined  ;
     userID: string | undefined;
     postID: ParamValue;
     name: string | undefined;
@@ -85,9 +85,10 @@ export default function IdeaDetailPage() {
 
     if (response.ok) {
       toast.success("Comment Added Successful.");
+      const responseData = await response.json();
+      const commentWithId = { ...comment, _id: responseData._id };
+      setComments([commentWithId, ...comments]);
     }
-
-    setComments([comment, ...comments]);
     setNewComment("");
     setLoadingComment(false);
   };
@@ -210,7 +211,7 @@ export default function IdeaDetailPage() {
               <div className="h-px bg-base-300 dark:bg-neutral-700 my-8" />
 
               <div className="flex flex-wrap gap-2">
-                {idea.tags.map((tag, i) => (
+                {idea.tags.map((tag:any, i:any) => (
                   <div key={i} className="badge badge-neutral badge-outline">
                     #{tag}
                   </div>
@@ -286,14 +287,14 @@ export default function IdeaDetailPage() {
                   {comment.userID === userID && (
                     <div className="dropdown dropdown-hover">
                       <div
-                        tabIndex="0"
+                        tabIndex={0}
                         role="button"
                         className="btn lg:btn-sm btn-xs m-1"
                       >
                         ...
                       </div>
                       <ul
-                        tabIndex="0"
+                        tabIndex={0}
                         className="dropdown-content menu bg-base-100 rounded-box  p-2 shadow text-xs"
                       >
                         <li>

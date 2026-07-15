@@ -1,4 +1,5 @@
 // app/ideas/[id]/page.tsx
+import type { Metadata } from 'next';
 import IdeaDetailPage from "@/Component/IdeaDetails";
 
 interface PageProps {
@@ -7,7 +8,7 @@ interface PageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
 
   try {
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { id } = await params;
+
   
-  return <IdeaDetailPage id={id} />;
+  return <IdeaDetailPage  />;
 }

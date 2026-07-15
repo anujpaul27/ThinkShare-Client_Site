@@ -60,20 +60,31 @@ export default function BannerV3() {
   const containerRef = useRef(null);
 
   // Responsive Card Width
-  const CARD_WIDTH = typeof window !== "undefined" && window.innerWidth < 768 ? 340 : 520;
-  const GAP = typeof window !== "undefined" && window.innerWidth < 768 ? 16 : 20;
+  const CARD_WIDTH =
+    typeof window !== "undefined" && window.innerWidth < 768 ? 340 : 520;
+  const GAP =
+    typeof window !== "undefined" && window.innerWidth < 768 ? 16 : 20;
 
-  const goTo = useCallback((idx) => {
-    setActive(idx);
-    animate(x, -idx * (CARD_WIDTH + GAP), { 
-      type: "spring", 
-      stiffness: 260, 
-      damping: 32 
-    });
-  }, [x, CARD_WIDTH, GAP]);
+  const goTo = useCallback(
+    (idx: any) => {
+      setActive(idx);
+      animate(x, -idx * (CARD_WIDTH + GAP), {
+        type: "spring",
+        stiffness: 260,
+        damping: 32,
+      });
+    },
+    [x, CARD_WIDTH, GAP],
+  );
 
-  const next = useCallback(() => goTo((active + 1) % slides.length), [active, goTo]);
-  const prev = useCallback(() => goTo((active - 1 + slides.length) % slides.length), [active, goTo]);
+  const next = useCallback(
+    () => goTo((active + 1) % slides.length),
+    [active, goTo],
+  );
+  const prev = useCallback(
+    () => goTo((active - 1 + slides.length) % slides.length),
+    [active, goTo],
+  );
 
   // Auto slide every 2 seconds
   useEffect(() => {
@@ -106,21 +117,66 @@ export default function BannerV3() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
         className="absolute inset-0"
-        style={{ background: "linear-gradient(135deg, #08090f 0%, #0f1118 50%, #08090f 100%)" }}
+        style={{
+          background:
+            "linear-gradient(135deg, #08090f 0%, #0f1118 50%, #08090f 100%)",
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-50 via-white to-zinc-100 dark:hidden" />
 
-        <div className="aurora-blob absolute" style={{ top: "-30%", left: "-10%", width: "70%", height: "80%", background: `radial-gradient(ellipse, ${slide.aurora1}28 0%, transparent 65%)` }} />
-        <div className="aurora-blob absolute" style={{ top: "10%", right: "-15%", width: "65%", height: "75%", background: `radial-gradient(ellipse, ${slide.aurora2}22 0%, transparent 60%)`, animationDelay: "-4s" }} />
-        <div className="aurora-blob absolute" style={{ bottom: "-20%", left: "30%", width: "55%", height: "60%", background: `radial-gradient(ellipse, ${slide.aurora3}18 0%, transparent 55%)`, animationDelay: "-8s" }} />
+        <div
+          className="aurora-blob absolute"
+          style={{
+            top: "-30%",
+            left: "-10%",
+            width: "70%",
+            height: "80%",
+            background: `radial-gradient(ellipse, ${slide.aurora1}28 0%, transparent 65%)`,
+          }}
+        />
+        <div
+          className="aurora-blob absolute"
+          style={{
+            top: "10%",
+            right: "-15%",
+            width: "65%",
+            height: "75%",
+            background: `radial-gradient(ellipse, ${slide.aurora2}22 0%, transparent 60%)`,
+            animationDelay: "-4s",
+          }}
+        />
+        <div
+          className="aurora-blob absolute"
+          style={{
+            bottom: "-20%",
+            left: "30%",
+            width: "55%",
+            height: "60%",
+            background: `radial-gradient(ellipse, ${slide.aurora3}18 0%, transparent 55%)`,
+            animationDelay: "-8s",
+          }}
+        />
       </motion.div>
 
       {/* Dot Mesh */}
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-      <div className="absolute inset-0 pointer-events-none dark:hidden" style={{ backgroundImage: "radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none dark:hidden"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center py-10 px-4 md:px-6">
-
         {/* Top Label */}
         <motion.div
           key={active}
@@ -128,7 +184,8 @@ export default function BannerV3() {
           animate={{ opacity: 1, y: 0 }}
           className="v3-mono text-[10px] md:text-[11px] text-zinc-400 dark:text-white/30 uppercase tracking-[0.2em] mb-6 md:mb-8"
         >
-          Innovation Signal — {String(active + 1).padStart(2, "0")} of {String(slides.length).padStart(2, "0")}
+          Innovation Signal — {String(active + 1).padStart(2, "0")} of{" "}
+          {String(slides.length).padStart(2, "0")}
         </motion.div>
 
         {/* Carousel Container */}
@@ -168,9 +225,10 @@ export default function BannerV3() {
                     backdropFilter: "blur(24px)",
                     WebkitBackdropFilter: "blur(24px)",
                     border: "1px solid rgba(255,255,255,0.12)",
-                    boxShadow: dist === 0
-                      ? `0 0 80px ${s.aurora1}25, 0 0 40px ${s.aurora2}15, 0 24px 60px rgba(0,0,0,0.5)`
-                      : "none",
+                    boxShadow:
+                      dist === 0
+                        ? `0 0 80px ${s.aurora1}25, 0 0 40px ${s.aurora2}15, 0 24px 60px rgba(0,0,0,0.5)`
+                        : "none",
                   }}
                 >
                   <div className="absolute inset-0 bg-white/70 dark:bg-white/5 backdrop-blur-2xl dark:backdrop-blur-3xl rounded-3xl" />
@@ -178,7 +236,9 @@ export default function BannerV3() {
                   {dist === 0 && (
                     <div
                       className="absolute inset-0 rounded-3xl pointer-events-none"
-                      style={{ background: `radial-gradient(ellipse 80% 50% at 20% 0%, ${s.aurora1}18, transparent)` }}
+                      style={{
+                        background: `radial-gradient(ellipse 80% 50% at 20% 0%, ${s.aurora1}18, transparent)`,
+                      }}
                     />
                   )}
 
@@ -187,7 +247,10 @@ export default function BannerV3() {
                       <div className="flex items-center gap-3 mb-5">
                         <div
                           className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center"
-                          style={{ background: s.chipBg, border: `1px solid ${s.chipColor}30` }}
+                          style={{
+                            background: s.chipBg,
+                            border: `1px solid ${s.chipColor}30`,
+                          }}
                         >
                           <Icon size={15} style={{ color: s.chipColor }} />
                         </div>
@@ -233,9 +296,9 @@ export default function BannerV3() {
                             background: `linear-gradient(135deg, ${s.aurora1}, ${s.aurora2})`,
                             fontFamily: "Bricolage Grotesque, sans-serif",
                           }}
-                          endContent={<ArrowRight size={15} />}
                         >
-                          <Link href={'/ideas'}>{s.cta}</Link>
+                          <Link href={"/ideas"}>{s.cta}</Link>
+                          <ArrowRight size={15} />
                         </Button>
                       </motion.div>
                     )}
@@ -256,9 +319,10 @@ export default function BannerV3() {
               style={{
                 width: i === active ? 32 : 8,
                 height: 8,
-                background: i === active
-                  ? `linear-gradient(90deg, ${slide.aurora1}, ${slide.aurora2})`
-                  : "rgba(0,0,0,0.15)",
+                background:
+                  i === active
+                    ? `linear-gradient(90deg, ${slide.aurora1}, ${slide.aurora2})`
+                    : "rgba(0,0,0,0.15)",
               }}
             />
           ))}
@@ -270,7 +334,10 @@ export default function BannerV3() {
             onClick={prev}
             className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-xl hover:bg-white/20 transition-colors"
           >
-            <ArrowRight size={16} className="text-zinc-800 dark:text-white rotate-180" />
+            <ArrowRight
+              size={16}
+              className="text-zinc-800 dark:text-white rotate-180"
+            />
           </button>
         </div>
         <div className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20">

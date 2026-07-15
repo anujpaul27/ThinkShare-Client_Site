@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import React, { useState, type FormEvent } from "react";
+import React, { useState,FormEvent  } from "react";
 import { toast } from "sonner";
 import type { FormValues } from "@/types";
 
@@ -130,7 +130,6 @@ export default function RegisterUser() {
               <Fieldset.Actions>
                 <Button
                   type="submit"
-                  isLoading={isLoading}
                   isDisabled={isLoading}
                   className="rounded-full"
                 >

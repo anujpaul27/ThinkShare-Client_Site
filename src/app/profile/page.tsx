@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -6,11 +6,20 @@ import { Camera, Save, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-// Type Interface 
+//  TYPES 
 interface UserSession {
   user?: {
     id: string;
-  }
+    name?: string;
+    email?: string;
+    image?: string;
+  };
+}
+
+interface FormData {
+  name: string;
+  email: string;
+  image: string;
 }
 
 export default function ProfilePage() {
@@ -22,13 +31,13 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     image: "",
   });
 
-  // Load user data
+  // Load user data when session changes
   useEffect(() => {
     if (session?.user) {
       setFormData({
@@ -39,13 +48,19 @@ export default function ProfilePage() {
     }
   }, [session]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
     if (!formData.name.trim()) {
       toast.error("Name is required");
+      return;
+    }
+
+    if (!session?.user?.id) {
+      toast.error("User session not found");
       return;
     }
 
@@ -64,22 +79,35 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result.success) {
-        
         toast.success("Profile updated successfully!");
         setIsEditing(false);
       } else {
         toast.error(result.message || "Failed to update profile");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong. Please try again.");
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (isPending) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  if (!session) return <div className="min-h-screen flex items-center justify-center">Please login first</div>;
+  // Loading & Auth Guard
+  if (isPending) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!session?.user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Please login first
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-base-200 py-12">
@@ -116,7 +144,7 @@ export default function ProfilePage() {
                     type="file"
                     accept="image/*"
                     className="hidden"
-                   
+                    // Add onChange handler when implementing image upload
                   />
                 </label>
               )}

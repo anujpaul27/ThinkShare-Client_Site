@@ -113,7 +113,7 @@ export default function MyIdeasPage() {
 
                 <tbody>
                   <AnimatePresence>
-                    {ideas.map((idea, index) => (
+                    {ideas.map((idea:any, index:number) => (
                       <motion.tr
                         key={idea._id}
                         initial={{ opacity: 0, y: 20 }}
@@ -188,7 +188,7 @@ export default function MyIdeasPage() {
             {/* Mobile Card Layout */}
             <div className="md:hidden p-3 space-y-4">
               <AnimatePresence>
-                {ideas.map((idea, index) => (
+                {ideas.map((idea:any, index:number) => (
                   <motion.div
                     key={idea._id}
                     initial={{ opacity: 0, y: 20 }}

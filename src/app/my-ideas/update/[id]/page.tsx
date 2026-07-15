@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -60,7 +60,7 @@ const router = useRouter()
   if (isLoading) return <Loader></Loader>;
   const idea = data.data;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 

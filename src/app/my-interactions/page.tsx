@@ -120,8 +120,8 @@ export default function MyInteractionsPage() {
                     {/* Image */}
                     <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0">
                       <Image
-                        src={comment?.imageURL}
-                        alt={comment?.name}
+                        src={comment?.imageURL || ""}
+                        alt={comment?.name || ""}
                         fill
                         className="object-cover"
                       />
