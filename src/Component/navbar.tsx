@@ -52,9 +52,9 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href={`/dashboard`} className="flex items-center gap-1.5">
+            <Link href={`/ideas`} className="flex items-center gap-1.5">
               <Lightbulb className="w-4 h-4" />
-              Dashboard
+              Explore idea
             </Link>
           </li>
         </ul>
@@ -79,11 +79,11 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-2">
           <Link href="/add-idea" className="btn btn-primary btn-sm gap-2">
             <PlusCircle className="w-4 h-4" />
-            Blog 
+            Add Idea  
           </Link>
 
           <Link href="/my-ideas" className="btn btn-ghost btn-sm">
-            Contract
+            My Idea 
           </Link>
 
           <Link href="/my-interactions" className="btn btn-ghost btn-sm">
